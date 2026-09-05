@@ -1,0 +1,34 @@
+# === DEPENDENCIAS ===
+node_modules/
+.pnpm-store/
+
+# === BUILD OUTPUT ===
+dist/
+build/
+.output/
+.tanstack/
+
+# === VARIABLES DE ENTORNO Y SECRETOS ===
+.env
+.env.*
+!.env.example
+.dev.vars
+
+# === IDE / EDITORES ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === SISTEMA OPERATIVO ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === LOGS ===
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# === CLOUDFLARE ===
+.wrangler/
