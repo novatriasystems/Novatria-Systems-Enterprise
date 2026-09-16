@@ -32,3 +32,5 @@ pnpm-debug.log*
 
 # === CLOUDFLARE ===
 .wrangler/
+# === DATA ===
+data/

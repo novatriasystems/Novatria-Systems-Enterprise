@@ -1,4 +1,4 @@
-﻿import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import Stripe from "stripe";
 import { execFile } from "child_process";
 import { promisify } from "util";
@@ -72,6 +72,10 @@ export const Route = createFileRoute("/api/webhook")({
         }
 
         // 1b. CONTROL DE IDEMPOTENCIA PERSISTENTE (ANTI-REPLAY)
+        // W-2 LIMITACION TOCTOU: la lectura y el append no son atomicos; dos eventos concurrentes
+        // podrian pasar el check antes de loguearse. Verificacion GL-2: generate_license.py NO tiene
+        // idempotencia interna (uuid4 por invocacion, .novatriac sobrescrito). Upgrade agendado:
+        // migrar idempotencia a SQLite (INSERT OR IGNORE sobre event_id) en WP3.
         if (await isDuplicateEvent(event.id)) {
           console.log(`Duplicate event ignored: ${event.id}`);
           return Response.json({ status: "DUPLICATE_IGNORED" });
