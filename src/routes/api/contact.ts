@@ -1,4 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { insertLead } from "../../lib/lead-store";
+import { createRateLimiter } from "../../lib/rate-limit";
+
+const contactRateLimiter = createRateLimiter({
+  windowMs: 60_000,
+  max: 5,
+});
+
+function getClientIp(request: Request): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0].trim();
+  const realIp = request.headers.get("x-real-ip");
+  if (realIp) return realIp.trim();
+  return "unknown";
+}
 
 export interface ContactPayload {
   fullName: string;
@@ -8,6 +23,7 @@ export interface ContactPayload {
   workload?: string;
   complianceNeeds?: string;
   score?: number;
+  nichoInteres?: string;
 }
 
 function isValidContact(data: unknown): data is ContactPayload {
@@ -26,10 +42,24 @@ function generateAuditReference(): string {
   return `NVT-AUD-${hex.toUpperCase()}`;
 }
 
+function extractEmailDomain(email: string): string {
+  const atIndex = email.lastIndexOf("@");
+  return atIndex > 0 ? email.slice(atIndex + 1) : email;
+}
+
 export const Route = createFileRoute("/api/contact")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        // Rate limiting
+        const clientIp = getClientIp(request);
+        if (!contactRateLimiter.check(clientIp)) {
+          return new Response("Rate limit exceeded. Espere 60 segundos.", {
+            status: 429,
+            headers: { "Content-Type": "text/plain" },
+          });
+        }
+
         let body: unknown;
         try {
           body = await request.json();
@@ -49,9 +79,25 @@ export const Route = createFileRoute("/api/contact")({
 
         const reference = generateAuditReference();
         const timestamp = new Date().toISOString();
+        const emailDomain = extractEmailDomain(body.workEmail);
 
-        // Enclave Audit Log (In-memory / console audit trace sin filtrar PII a terceros)
-        console.log(`[PERIMETER AUDIT REGISTERED]: Ref ${reference} | Entity: ${body.company} | Domain: ${body.workEmail.split("@")[1]} | Score: ${body.score ?? "N/A"}%`);
+        // Enclave Audit Log (solo reference + score — PII minimizado según Ley 1581)
+        console.log(`[PERIMETER AUDIT REGISTERED]: Ref ${reference} | Score: ${body.score ?? "N/A"}%`);
+
+        // Persistencia en SQLite (lead-store)
+        try {
+          insertLead(
+            reference,
+            body.fullName,
+            body.company,
+            emailDomain,
+            body.nichoInteres ?? null,
+            body.score ?? null
+          );
+        } catch (err) {
+          console.error(`Lead persistence failed: ${err}`);
+          // No bloqueamos la respuesta por fallo de persistencia
+        }
 
         return new Response(
           JSON.stringify({
@@ -70,7 +116,6 @@ export const Route = createFileRoute("/api/contact")({
         new Response(null, {
           status: 204,
           headers: {
-            "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "POST, OPTIONS",
             "Access-Control-Allow-Headers": "content-type",
           },

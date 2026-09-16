@@ -1,4 +1,4 @@
-﻿import "./lib/error-capture";
+import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
@@ -61,7 +61,16 @@ async function applySecurityHeaders(response: Response): Promise<Response> {
   const contentType = newResponse.headers.get("content-type") || "";
   if (contentType.includes("text/html")) {
     const html = await newResponse.text();
-    const patchedHtml = html.replace(/<script(?!.*nonce=)([^>]*)>/g, `<script nonce="${nonce}"$1>`);
+    // NI-1: Inyector de nonce por callback posicional inmune a multilínea
+    // Si los atributos del tag script ya contienen nonce, dejar intacto; si no, inyectar el atributo con el nonce del request
+    const patchedHtml = html.replace(/<script([^>]*)>/g, (match, attrs) => {
+      // Si ya tiene nonce, no tocar
+      if (/\bnonce\s*=/.test(attrs)) {
+        return match;
+      }
+      // Inyectar nonce al principio de los atributos
+      return `<script nonce="${nonce}"${attrs}>`;
+    });
     return new Response(patchedHtml, {
       status: newResponse.status,
       statusText: newResponse.statusText,

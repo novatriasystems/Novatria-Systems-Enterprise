@@ -1,11 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 // ============================================================================
-// RATE LIMITING — Map en memoria, 10 mensajes/minuto/IP
+// RATE LIMITING — Factory createRateLimiter (Map con purga por ventana)
 // ============================================================================
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX_REQUESTS = 10;
-const ipRequestMap = new Map<string, number[]>();
+import { createRateLimiter } from "../../lib/rate-limit";
+
+const closerRateLimiter = createRateLimiter({
+  windowMs: 60_000,
+  max: 10,
+});
 
 function getClientIp(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
@@ -13,20 +16,6 @@ function getClientIp(request: Request): string {
   const realIp = request.headers.get("x-real-ip");
   if (realIp) return realIp.trim();
   return "unknown";
-}
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const timestamps = ipRequestMap.get(ip) ?? [];
-  const validTimestamps = timestamps.filter(
-    (ts) => now - ts < RATE_LIMIT_WINDOW_MS
-  );
-  if (validTimestamps.length >= RATE_LIMIT_MAX_REQUESTS) {
-    return false;
-  }
-  validTimestamps.push(now);
-  ipRequestMap.set(ip, validTimestamps);
-  return true;
 }
 
 // ============================================================================
@@ -79,7 +68,7 @@ export const Route = createFileRoute("/api/closer")({
       POST: async ({ request }) => {
         // 1. Rate Limiting
         const clientIp = getClientIp(request);
-        if (!checkRateLimit(clientIp)) {
+        if (!closerRateLimiter.check(clientIp)) {
           return new Response("Rate limit exceeded. Espere 60 segundos.", {
             status: 429,
             headers: { "Content-Type": "text/plain" },
@@ -105,7 +94,10 @@ export const Route = createFileRoute("/api/closer")({
           { role: "system", content: SYSTEM_PROMPT },
           ...body.messages.map<ChatMessage>(m =>
             m.role === "user"
-              ? { role: "user", content: `<user_input>${m.content}</user_input>` }
+              ? {
+                  role: "user",
+                  content: `<user_input>${m.content.replace(/<\/user_input>/g, "")}</user_input>`,
+                }
               : m
           ),
         ];
@@ -116,7 +108,9 @@ export const Route = createFileRoute("/api/closer")({
           (process.env.OLLAMA_HOST
             ? `${process.env.OLLAMA_HOST}/v1/chat/completions`
             : "http://localhost:11434/v1/chat/completions");
-        
+
+        const model = process.env.TALOS_MODEL || "llama3.3";
+
         // 5. Streaming SSE pass-through con Timeout Anti-Slowloris
         if (body.stream) {
           const upstreamResponse = await fetch(localInferenceUrl, {
@@ -124,10 +118,10 @@ export const Route = createFileRoute("/api/closer")({
             headers: {
               "Content-Type": "application/json",
               // Autenticación local desactivada o dummy en entorno soberano
-              "Authorization": "Bearer ollama-local" 
+              "Authorization": "Bearer ollama-local"
             },
             body: JSON.stringify({
-              model: "llama3.3",
+              model,
               messages: messagesWithSystem,
               stream: true,
             }),
@@ -199,7 +193,7 @@ export const Route = createFileRoute("/api/closer")({
             "Authorization": "Bearer ollama-local"
           },
           body: JSON.stringify({
-            model: "llama3.3",
+            model,
             messages: messagesWithSystem,
           }),
         });
@@ -217,7 +211,6 @@ export const Route = createFileRoute("/api/closer")({
         new Response(null, {
           status: 204,
           headers: {
-            "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "POST, OPTIONS",
             "Access-Control-Allow-Headers": "content-type",
           },

@@ -1,4 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { createRateLimiter } from "../../lib/rate-limit";
+
+const paymentRateLimiter = createRateLimiter({
+  windowMs: 60_000,
+  max: 10,
+});
+
+function getClientIp(request: Request): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0].trim();
+  const realIp = request.headers.get("x-real-ip");
+  if (realIp) return realIp.trim();
+  return "unknown";
+}
 
 type CardPayload = {
   method: "card";
@@ -36,6 +50,15 @@ export const Route = createFileRoute("/api/payment")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        // Rate limiting
+        const clientIp = getClientIp(request);
+        if (!paymentRateLimiter.check(clientIp)) {
+          return new Response("Rate limit exceeded. Espere 60 segundos.", {
+            status: 429,
+            headers: { "Content-Type": "text/plain" },
+          });
+        }
+
         let body: unknown;
         try {
           body = await request.json();
@@ -57,7 +80,6 @@ export const Route = createFileRoute("/api/payment")({
         new Response(null, {
           status: 204,
           headers: {
-            "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "POST, OPTIONS",
             "Access-Control-Allow-Headers": "content-type",
           },

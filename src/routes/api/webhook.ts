@@ -15,20 +15,48 @@ const stripe = new Stripe(
   }
 );
 
-const OFFER_MAP: Record<string, string> = {
-  "price_neuris": "NEURIS_1",
-  "price_talos": "TALOS_2",
-  "price_mithra": "MITHRA_3",
-  "price_webdev": "WEBDEV_4",
-};
+// OFFER_MAP desde env STRIPE_OFFER_MAP_JSON (JSON serializado) — W-5
+function parseOfferMap(): Record<string, string> {
+  const raw = process.env.STRIPE_OFFER_MAP_JSON || import.meta.env.STRIPE_OFFER_MAP_JSON || "";
+  if (!raw) {
+    // Fallback hardcodeado (solo para compatibilidad; env es obligatorio en producción)
+    return {
+      "price_neuris": "NEURIS_1",
+      "price_talos": "TALOS_2",
+      "price_mithra": "MITHRA_3",
+      "price_webdev": "WEBDEV_4",
+    };
+  }
+  try {
+    return JSON.parse(raw);
+  } catch {
+    console.error("STRIPE_OFFER_MAP_JSON inválido, usando fallback");
+    return {
+      "price_neuris": "NEURIS_1",
+      "price_talos": "TALOS_2",
+      "price_mithra": "MITHRA_3",
+      "price_webdev": "WEBDEV_4",
+    };
+  }
+}
+
+const OFFER_MAP = parseOfferMap();
+
+// LICENSE_SCRIPT_PATH desde env — W-5
+const LICENSE_SCRIPT_PATH =
+  process.env.LICENSE_SCRIPT_PATH ||
+  import.meta.env.LICENSE_SCRIPT_PATH ||
+  "C:\\Novatria_Control_Center\\internal_tools\\generate_license.py";
 
 const WEBHOOK_LOG_PATH = path.resolve(process.cwd(), "data/processed_webhooks.txt");
 const MAX_PAYLOAD_BYTES = 1048576; // 1MB
 
+// W-1: Set de líneas exactas (split), no substring match
 async function isDuplicateEvent(eventId: string): Promise<boolean> {
   try {
     const data = await fs.readFile(WEBHOOK_LOG_PATH, "utf-8");
-    return data.includes(eventId);
+    const lines = data.split("\n").filter((line) => line.length > 0);
+    return lines.includes(eventId);
   } catch {
     return false;
   }
@@ -39,10 +67,28 @@ async function logEventId(eventId: string): Promise<void> {
   await fs.appendFile(WEBHOOK_LOG_PATH, `${eventId}\n`, "utf-8");
 }
 
+// W-3: Rotación mensual del log
+async function maybeRotateLog(): Promise<void> {
+  try {
+    const stats = await fs.stat(WEBHOOK_LOG_PATH);
+    const lastModified = new Date(stats.mtime);
+    const now = new Date();
+    if (lastModified.getFullYear() !== now.getFullYear() || lastModified.getMonth() !== now.getMonth()) {
+      const rotatedPath = `${WEBHOOK_LOG_PATH}.${lastModified.getFullYear()}-${String(lastModified.getMonth() + 1).padStart(2, "0")}`;
+      await fs.rename(WEBHOOK_LOG_PATH, rotatedPath);
+      console.log(`Webhook log rotado a ${rotatedPath}`);
+    }
+  } catch {
+    // Log no existe aún o error al rotar; no bloquea
+  }
+}
+
 export const Route = createFileRoute("/api/webhook")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        await maybeRotateLog();
+
         // 1a. VALIDACIÓN DE TAMAÑO (ANTI-DoS)
         const contentLength = parseInt(request.headers.get("content-length") || "0", 10);
         if (contentLength > MAX_PAYLOAD_BYTES) {
@@ -72,10 +118,11 @@ export const Route = createFileRoute("/api/webhook")({
         }
 
         // 1b. CONTROL DE IDEMPOTENCIA PERSISTENTE (ANTI-REPLAY)
-        // W-2 LIMITACION TOCTOU: la lectura y el append no son atomicos; dos eventos concurrentes
-        // podrian pasar el check antes de loguearse. Verificacion GL-2: generate_license.py NO tiene
-        // idempotencia interna (uuid4 por invocacion, .novatriac sobrescrito). Upgrade agendado:
-        // migrar idempotencia a SQLite (INSERT OR IGNORE sobre event_id) en WP3.
+        // W-2 LIMITACIÓN TOCTOU: la lectura y el append no son atómicos; dos eventos
+        // concurrentes podrían pasar el check antes de loguearse. Verificación GL-2:
+        // generate_license.py NO tiene idempotencia interna (uuid4 por invocación,
+        // .novatriac sobrescrito). Upgrade agendado: migrar idempotencia a SQLite
+        // (INSERT OR IGNORE sobre event_id) en WP3.
         if (await isDuplicateEvent(event.id)) {
           console.log(`Duplicate event ignored: ${event.id}`);
           return Response.json({ status: "DUPLICATE_IGNORED" });
@@ -84,8 +131,14 @@ export const Route = createFileRoute("/api/webhook")({
         // 3. PARSEO Y MAPEO DE EVENTO
         if (event.type === "checkout.session.completed") {
           const session = event.data.object as Stripe.Checkout.Session;
-          const customerEmail = session.customer_details?.email || "unknown@novatria.systems";
-          
+          const customerEmail = session.customer_details?.email;
+
+          // W-4: checkout sin customer email → 422 (Stripe reintenta)
+          if (!customerEmail) {
+            console.error("Checkout session completed without customer email");
+            return new Response("Missing customer email", { status: 422 });
+          }
+
           const offerKey = session.metadata?.offer_id || session.client_reference_id || "";
           const offerId = OFFER_MAP[offerKey] || offerKey;
 
@@ -96,11 +149,9 @@ export const Route = createFileRoute("/api/webhook")({
 
           // 4. EJECUCIÓN SEGURA DE GENERATE_LICENSE.PY
           try {
-            const scriptPath = "C:\\Novatria_Control_Center\\internal_tools\\generate_license.py";
-            
             const { stdout, stderr } = await execFileAsync(
               "python",
-              [scriptPath, "--customer", customerEmail, "--offer", offerId, "--ttl", "30"],
+              [LICENSE_SCRIPT_PATH, "--customer", customerEmail, "--offer", offerId, "--ttl", "30"],
               { windowsHide: true }
             );
 
