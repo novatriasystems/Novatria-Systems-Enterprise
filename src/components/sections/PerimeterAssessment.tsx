@@ -69,10 +69,10 @@ export function PerimeterAssessment({ isOpen, onClose }: PerimeterAssessmentProp
           if (data.reference) setAuditRef(data.reference);
           if (typeof data.score === "number") setServerScore(data.score);
         } else {
-          setServerError("El enclave no pudo registrar la evaluación. Intenta de nuevo.");
+          setServerError("No pudimos registrar el diagnóstico. Intenta de nuevo.");
         }
       } catch {
-        setServerError("Error de conexión con el enclave.");
+        setServerError("Error de conexión. Intenta de nuevo.");
       } finally {
         setIsSubmitting(false);
         setStep(4);
@@ -105,15 +105,15 @@ export function PerimeterAssessment({ isOpen, onClose }: PerimeterAssessmentProp
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Badge variant="cobalt">
-                // AUDITORÍA DE ARQUITECTURA [PASO {step}/3]
+                // DIAGNÓSTICO GRATUITO [PASO {step}/3]
               </Badge>
             </div>
 
             <h3 className="font-sans text-2xl font-bold tracking-tight text-zinc-100">
-              Evaluación Confidencial de Perímetro
+              Diagnóstico gratuito para su negocio
             </h3>
             <p className="mt-1 text-xs text-zinc-400">
-              Cualificación de aislamiento de infraestructura y cálculo de superficie de ataque.
+              Cuatro preguntas y sabrá qué está perdiendo y cómo recuperarlo.
             </p>
 
             <form onSubmit={handleNext} className="mt-6 space-y-5">
@@ -279,7 +279,7 @@ export function PerimeterAssessment({ isOpen, onClose }: PerimeterAssessmentProp
                       Atrás
                     </Button>
                     <Button type="submit" disabled={isSubmitting || !consent} variant="primary" className="w-2/3">
-                      {isSubmitting ? "Registrando en Enclave..." : "Ejecutar Dictamen"}
+                      {isSubmitting ? "Registrando su diagnóstico..." : "Ejecutar Dictamen"}
                       <ShieldCheck className="h-4 w-4" />
                     </Button>
                   </div>
@@ -294,7 +294,7 @@ export function PerimeterAssessment({ isOpen, onClose }: PerimeterAssessmentProp
             </div>
 
             <Badge variant="amber" className="mb-2">
-              ÍNDICE DE EXPOSICIÓN (VERIFICADO EN ENCLAVE): {serverScore ?? estimateScore()}%
+              SU NIVEL DE RIESGO ACTUAL: {serverScore ?? estimateScore()}%
             </Badge>
 
             <h3 className="font-sans text-2xl font-bold text-zinc-100 mt-2">
@@ -304,7 +304,7 @@ export function PerimeterAssessment({ isOpen, onClose }: PerimeterAssessmentProp
             <div className="mt-4 rounded-sm border border-white/[0.08] bg-zinc-900/50 p-4 text-left font-mono text-xs text-zinc-300 space-y-2">
               {auditRef && (
                 <div className="flex justify-between border-b border-white/[0.06] pb-2 text-emerald-400">
-                  <span className="text-zinc-400">Referencia Enclave:</span>
+                  <span className="text-zinc-400">Referencia del diagnóstico:</span>
                   <span className="font-bold tracking-wider">{auditRef}</span>
                 </div>
               )}

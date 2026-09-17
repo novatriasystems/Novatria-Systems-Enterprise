@@ -178,3 +178,23 @@
   termina en auditoria Arquitecto + commit protocolar. Constitucion extensible a
   Antigravity — pendiente decision Ingeniero.
 - PENDIENTE: verificacion visual del Ingeniero (criterio: pedagogia de ventas).
+
+## WP6 — NARRATIVA DUAL-TRACK (CIERRE + AUDITORIA ANTIMATTER) — 19-sep
+- Implementacion por Antigravity (sin acta previa — segunda vez). Auditoria Arquitecto
+  contra fisico ANTES de commit. 9 componentes nuevos verificados en disco; soberanos
+  (modal/closer/footer) INTACTOS; precios respetados; gates finales verdes.
+- HALLAZGOS CORREGIDOS (dirigidos, no re-ejecucion):
+  HD-3: jerga SGN reintroducida (Header/LiveProof) — purgada; guard SGN permanente.
+  ND-2: metricas inventadas (+12%/+18%) en SolutionTalos/RealCases — purgadas
+        (prohibicion de promesas sin piloto).
+  ND-3: LiveProofWhatsApp mockup — REESCRITO 100% manifiesto (plantilla_inicial del
+        kernel; se actualiza con el yaml en cada build).
+  ND-4: NicheProducts omitido del ensamblaje — insertado tras SolutionTalos.
+  CP-1: modal re-rotulado a pedagogia ("Diagnostico gratuito", "Su nivel de riesgo
+        actual") — logica intacta, solo texto.
+- Diferencias con propuesta externa v1.0 documentadas: jerga SGN era pagina fantasma;
+  Dr. Valenzuela no existe (sustituido por Prueba Viva con plantillas reales);
+  "cero alucinaciones" y "expedientes clinicos" eliminados por insostenibles.
+- REGLA PERMANENTE: todo agente que toque este repo termina en auditoria Arquitecto +
+  commit protocolar. Constitucion extensible a Antigravity — pendiente Ingeniero.
+- PENDIENTE: verificacion visual del Ingeniero (criterio: pedagogia de ventas).
