@@ -133,3 +133,15 @@
   vitrina ya operan con las primitivas existentes — la componentizacion es refinamiento,
   no bloqueo. 6d alias @/: aplicado a tsconfig para codigo nuevo (migracion masiva de
   imports existentes re-evaluable al cierre).
+
+## POST-WP5 FIX — STRIPE INIT EN CHECKOUT (hallazgo del primer arranque dev) — 18-sep
+- Sintoma: 500 en TODA la pagina al primer pnpm dev. Causa: checkout.ts inicializaba
+  new Stripe("") con fallback vacio — Stripe lanza en constructor con apiKey vacia; como
+  routeTree.gen importa las rutas eager, el throw al importar tumbo todo el SSR.
+- Causa raiz de proceso: me desvie del patron documentado del propio webhook.ts
+  ("placeholder para evitar crash en SSR") sin consultarlo. REGLA NUEVA: inicializadores
+  de clientes de terceros a nivel de modulo jamas lanzan en import (placeholder
+  documentado o init lazy dentro del handler).
+- Favicon: __root apuntaba a /favicon.ico inexistente; corregido a /favicon.svg real.
+- Falso positivo descartado: bloqueo de fuente de extension Perplexity por la CSP es la
+  restriccion (4) funcionando, no un defecto.

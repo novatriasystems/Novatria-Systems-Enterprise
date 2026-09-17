@@ -9,7 +9,7 @@ const checkoutRateLimiter = createRateLimiter({
 });
 
 const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY || import.meta.env.STRIPE_SECRET_KEY || "",
+  process.env.STRIPE_SECRET_KEY || import.meta.env.STRIPE_SECRET_KEY || "sk_test_PLACEHOLDER",
   { apiVersion: "2024-06-20" as Stripe.LatestApiVersion }
 );
 
