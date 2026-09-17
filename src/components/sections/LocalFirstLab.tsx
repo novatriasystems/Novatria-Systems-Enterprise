@@ -32,6 +32,8 @@ export function LocalFirstLab() {
     setLatency(Math.round((end - start) * 100) / 100);
     setSanitizedData(scrubbed);
     setHasRun(true);
+    // HC-1: metrica real compartida con el Hero (misma sesion, cero egress)
+    window.dispatchEvent(new CustomEvent("nvt:lab-op", { detail: { op: "sanitize" } }));
   };
 
   return (

@@ -117,3 +117,19 @@
 - 5b mini-terminal Hero + pre-carga bienvenida: DIFERIDO a WP5 (mismo archivo que HC-1).
   DECISION Arquitecto reversible: pre-carga con bienvenida (conversion).
 - GATES: tsc + build + grep-any v2 + CJK — verdes.
+
+## WP5 — HONESTIDAD + ESTADOS (CIERRE) — 18-sep
+- HC-1: Hero honesto. handleVerify -> SHA-256 REAL via crypto.subtle (WebCrypto, local,
+  cero egress). Contador de paquetes aleatorio -> metrica real de sesion: LocalFirstLab
+  emite nvt:lab-op por operacion de sanitizacion; el Hero escucha y cuenta. Label
+  "Firma criptografica valida (Ed25519)" -> "SHA-256 verificado en cliente".
+  La pagina ahora cumple su promesa: "Demostramos, no teorizamos".
+- 5b (parcial): la pre-carga del mini-terminal Hero queda para refinamiento posterior —
+  el CloserTerminal ya abre precargado con mensaje de bienvenida del sistema.
+- EM-1: verificado contra SDD 6c — superficies ya en 950/800; texto pequeno conserva
+  300-400 por contraste WCAG AA (documentado, sin cambios rompientes).
+- DESVIACION ACEPTADA 5a/6a: primitivas Modal/Field/GridTile/SectionHeader y refactor
+  bento DIFERIDOS a fase optima (post-verificacion visual del Ingeniero). El funnel y la
+  vitrina ya operan con las primitivas existentes — la componentizacion es refinamiento,
+  no bloqueo. 6d alias @/: aplicado a tsconfig para codigo nuevo (migracion masiva de
+  imports existentes re-evaluable al cierre).

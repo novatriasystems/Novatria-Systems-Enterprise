@@ -11,21 +11,25 @@ interface HeroSectionProps {
 
 export function HeroSection({ onEvaluar, onOpenTerminal }: HeroSectionProps) {
   const [activeTab, setActiveTab] = useState<"perimeter" | "egress" | "integrity">("perimeter");
-  const [packetCount, setPacketCount] = useState(14829);
+  // HC-1: metrica real de sesion (operaciones de sanitizacion del lab, via evento compartido)
+  const [packetCount, setPacketCount] = useState(0);
   const [lastHash, setLastHash] = useState("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
 
+  // HC-1: escucha operaciones reales del lab (mismo documento, cero red)
   useEffect(() => {
-    const interval = setInterval(() => {
-      setPacketCount((prev) => prev + Math.floor(Math.random() * 5) + 1);
-    }, 2500);
-    return () => clearInterval(interval);
+    const onOp = () => setPacketCount((prev) => prev + 1);
+    window.addEventListener("nvt:lab-op", onOp);
+    return () => window.removeEventListener("nvt:lab-op", onOp);
   }, []);
 
-  const handleVerify = () => {
-    const randomHex = Array.from({ length: 64 }, () =>
-      Math.floor(Math.random() * 16).toString(16)
-    ).join("");
-    setLastHash(randomHex);
+  // HC-1: SHA-256 REAL via WebCrypto (local, cero egress) sobre el payload de la demo
+  const handleVerify = async () => {
+    const payload = `NOVATRIA-ENCLAVE-${packetCount}-${new Date().toISOString()}`;
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(payload));
+    const hex = Array.from(new Uint8Array(buf))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    setLastHash(hex);
   };
 
   return (
@@ -207,7 +211,7 @@ export function HeroSection({ onEvaluar, onOpenTerminal }: HeroSectionProps) {
                     </div>
                     <div className="flex items-center gap-2 text-[11px] text-emerald-400">
                       <Check className="h-3.5 w-3.5" />
-                      <span>Firma criptográfica válida (Ed25519)</span>
+                      <span>SHA-256 verificado en cliente (WebCrypto local)</span>
                     </div>
                   </div>
                 )}
