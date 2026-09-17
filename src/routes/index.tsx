@@ -3,11 +3,17 @@ import { useState } from "react";
 import { Terminal as TerminalIcon } from "lucide-react";
 import { Header } from "../components/sections/Header";
 import { HeroSection } from "../components/sections/HeroSection";
+import { MirrorSection } from "../components/sections/MirrorSection";
+import { SolutionTalos } from "../components/sections/SolutionTalos";
 import { NicheProducts } from "../components/sections/NicheProducts";
-import { DoctrineValues } from "../components/sections/DoctrineValues";
-import { RiskTelemetry } from "../components/sections/RiskTelemetry";
-import { ServicesMatrix } from "../components/sections/ServicesMatrix";
+import { LiveProofWhatsApp } from "../components/sections/LiveProofWhatsApp";
+import { EvidenceCES } from "../components/sections/EvidenceCES";
+import { BridgeSteps } from "../components/sections/BridgeSteps";
+import { FaqSection } from "../components/sections/FaqSection";
+import { EnterpriseB2B } from "../components/sections/EnterpriseB2B";
+import { RealCases } from "../components/sections/RealCases";
 import { LocalFirstLab } from "../components/sections/LocalFirstLab";
+import { DiagnosticFinal } from "../components/sections/DiagnosticFinal";
 import { Footer } from "../components/sections/Footer";
 import { PerimeterAssessment } from "../components/sections/PerimeterAssessment";
 import { CloserTerminal } from "../components/sections/CloserTerminal";
@@ -22,36 +28,54 @@ function NovatriaEnterprisePage() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-blue-600 selection:text-white">
-      {/* Top Command Navigation */}
+      {/* Barra de Navegación (Header Superior) */}
       <Header
         onEvaluar={() => setIsAssessmentOpen(true)}
         onOpenCloser={() => setIsTerminalOpen(true)}
       />
 
       <main>
-        {/* Hero with Live Enclave Monitor */}
+        {/* Sección 1: Hero */}
         <HeroSection
           onEvaluar={() => setIsAssessmentOpen(true)}
           onOpenTerminal={() => setIsTerminalOpen(true)}
         />
 
-        {/* Linea 1 — Niche Products (manifiesto kernel, WP3b) */}
+        {/* Sección 2: El Espejo (Escenas) */}
+        <MirrorSection />
+
+        {/* Sección 3: La Solución (Talos Engine) */}
+        <SolutionTalos />
+
+        {/* Linea 1 — Su negocio. Su Talos. (manifiesto kernel, WP3b) */}
         <NicheProducts onEvaluar={() => setIsAssessmentOpen(true)} />
 
-        {/* Engineering Doctrine */}
-        <DoctrineValues />
+        {/* Sección 4: La Prueba Viva (Demostración Interactiva) */}
+        <LiveProofWhatsApp />
 
-        {/* Threat Telemetry & Public Cloud Risk */}
-        <RiskTelemetry onEvaluar={() => setIsAssessmentOpen(true)} />
+        {/* Sección 5: Evidencia de Terceros (Estudio CES) */}
+        <EvidenceCES />
 
-        {/* 4 Sovereign Architectural Pillars */}
-        <ServicesMatrix onEvaluar={() => setIsAssessmentOpen(true)} />
+        {/* Sección 6: El Puente (Paso a Paso) */}
+        <BridgeSteps />
 
-        {/* Browser Sovereign Proof-of-Work Sandbox */}
+        {/* Sección 7: Objeciones (FAQ) */}
+        <FaqSection />
+
+        {/* Sección 8: Empresas y Proveedores (Puerta Grande) */}
+        <EnterpriseB2B />
+
+        {/* Sección 9: Casos Reales */}
+        <RealCases />
+
+        {/* Sección 10: Laboratorio (Demo Interactiva Client-Side) */}
         <LocalFirstLab />
+
+        {/* Sección 11: Cierre / Conversión Final */}
+        <DiagnosticFinal />
       </main>
 
-      {/* Enterprise Perimeter Footer */}
+      {/* Pie de Página (Footer) original conservado */}
       <Footer />
 
       {/* Multi-Step Diagnostic Assessment Modal */}

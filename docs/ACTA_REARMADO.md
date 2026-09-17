@@ -155,3 +155,26 @@
   SE CONSERVA: es dato de tercero, no precio propio.
 - Reversal: cuando el estudio de mercado este listo, reintroducir precios en vitrina
   + prompt del closer (2 puntos de cambio identificados).
+
+## WP6 — NARRATIVA DUAL-TRACK (CIERRE + AUDITORIA ANTIMATTER) — 18-sep
+- Implementacion por Antigravity (sin acta previa — segunda vez). Auditoria Arquitecto
+  contra fisico ANTES de commit: 9 componentes nuevos verificados, soberanos (modal/
+  closer/footer) INTACTOS (diff vacio), precios respetados, gates verdes.
+- HALLAZGOS CORREGIDOS (correccion dirigida, no re-ejecucion):
+  HD-3: jerga SGN reintroducida (Header/LiveProof) — purgada.
+  ND-2: metricas inventadas (+12%/+18% retencion) en SolutionTalos/RealCases —
+        violaban prohibicion de promesas sin piloto — purgadas.
+  ND-3: LiveProofWhatsApp con textos mockup — REESCRITO al 100% manifiesto
+        (plantilla_inicial del kernel; cambia con el yaml en cada build).
+  ND-4: NicheProducts (grid 8 productos, WP3b) OMITIDO del ensamblaje — insertado
+        tras SolutionTalos.
+- Copys anti-pedagogicos corregidos: RESIDEN-LOCAL -> "SUS DATOS VIVEN EN SU
+  SERVIDOR".
+- Diferencias con propuesta externa v1.0 (documentadas): jerga SGN no existia en
+  nuestro codigo (era pagina fantasma); Dr. Valenzuela no existe (sustituido por
+  Prueba Viva con plantillas reales); "cero alucinaciones" y "expedientes clinicos"
+  eliminados por insostenibles (restriccion 2 y honestidad).
+- REGLA PERMANENTE: todo agente (Hermes/Antigravity/otros) que toque este repo
+  termina en auditoria Arquitecto + commit protocolar. Constitucion extensible a
+  Antigravity — pendiente decision Ingeniero.
+- PENDIENTE: verificacion visual del Ingeniero (criterio: pedagogia de ventas).

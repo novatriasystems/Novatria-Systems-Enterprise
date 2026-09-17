@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 
@@ -12,7 +12,7 @@ export function Header({ onEvaluar, onOpenCloser }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-zinc-950/85 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-zinc-950/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
         {/* Brand */}
         <div className="flex items-center gap-3.5">
@@ -22,73 +22,90 @@ export function Header({ onEvaluar, onOpenCloser }: HeaderProps) {
               <span className="font-sans text-sm font-bold uppercase tracking-tight text-zinc-100">
                 Novatria Systems
               </span>
-              <span className="hidden font-mono text-[9px] uppercase tracking-widest text-zinc-500 md:inline">
-                // ENTERPRISE
+              <span className="hidden font-mono text-[9px] uppercase tracking-widest text-zinc-400 md:inline">
+                // SGN ARCHITECTURE CORE
               </span>
             </div>
             <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-zinc-400">
-              Sovereign AI Infrastructure
+              Novatria Systems
             </div>
           </div>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-7 lg:flex">
           <a
-            href="#productos"
-            className="font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-zinc-100"
+            href="#evidencia"
+            className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-zinc-100"
           >
-            Productos
+            Investigación Global
           </a>
           <a
-            href="#doctrina"
-            className="font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-zinc-100"
+            href="#prueba-viva"
+            className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-zinc-100"
           >
-            Doctrina
+            Demostración en Vivo
           </a>
           <a
-            href="#riesgo"
-            className="font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-zinc-100"
+            href="#laboratorio"
+            className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-zinc-100"
           >
-            Riesgo
+            Demo Funcional
           </a>
           <a
-            href="#servicios"
-            className="font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-zinc-100"
+            href="#faq"
+            className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-zinc-100"
           >
-            Servicios
+            Preguntas Frecuentes
           </a>
           <a
-            href="#lab"
-            className="font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-zinc-100"
+            href="#empresas"
+            className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-zinc-100"
           >
-            Laboratorio
+            Empresas & Proveedores
           </a>
         </nav>
 
         {/* Actions & Status */}
         <div className="hidden items-center gap-4 sm:flex">
-          <Badge variant="emerald" pulse className="hidden xl:inline-flex">
-            Air-Gapped Ready
+          <Badge variant="emerald" pulse className="inline-flex font-mono text-[11px] tracking-wider">
+            Status: Active
           </Badge>
           {onOpenCloser && (
             <button
               onClick={onOpenCloser}
               className="font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-blue-400"
+              title="Abrir terminal HUD"
             >
               [HUD Terminal]
             </button>
           )}
-          <Button onClick={onEvaluar} size="sm" variant="primary">
-            Auditar Perímetro
-            <ArrowRight className="h-3 w-3" />
+          <Button
+            onClick={() => {
+              const el = document.getElementById("diagnostico");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+              else onEvaluar();
+            }}
+            size="sm"
+            variant="primary"
+          >
+            Diagnóstico Gratuito →
           </Button>
         </div>
 
         {/* Mobile Menu Toggle */}
         <div className="flex items-center gap-2 lg:hidden">
-          <Button onClick={onEvaluar} size="sm" variant="primary" className="text-[10px] px-2.5 py-1">
-            Auditar
+          <Button
+            onClick={() => {
+              const el = document.getElementById("diagnostico");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+              else onEvaluar();
+            }}
+            size="sm"
+            variant="primary"
+            className="text-[10px] px-2.5 py-1"
+          >
+            Diagnóstico
           </Button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -105,32 +122,39 @@ export function Header({ onEvaluar, onOpenCloser }: HeaderProps) {
         <div className="border-b border-zinc-800 bg-zinc-950 px-6 py-6 lg:hidden">
           <nav className="flex flex-col gap-4">
             <a
-              href="#doctrina"
+              href="#evidencia"
               onClick={() => setMobileMenuOpen(false)}
               className="font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 hover:text-blue-400"
             >
-              // Doctrina & Valores
+              // Investigación Global
             </a>
             <a
-              href="#riesgo"
+              href="#prueba-viva"
               onClick={() => setMobileMenuOpen(false)}
               className="font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 hover:text-blue-400"
             >
-              // Telemetría de Riesgo
+              // Demostración en Vivo
             </a>
             <a
-              href="#servicios"
+              href="#laboratorio"
               onClick={() => setMobileMenuOpen(false)}
               className="font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 hover:text-blue-400"
             >
-              // Arquitecturas de Servicio
+              // Demo Funcional
             </a>
             <a
-              href="#lab"
+              href="#faq"
               onClick={() => setMobileMenuOpen(false)}
               className="font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 hover:text-blue-400"
             >
-              // Novatria Lab (Client-Side)
+              // Preguntas Frecuentes
+            </a>
+            <a
+              href="#empresas"
+              onClick={() => setMobileMenuOpen(false)}
+              className="font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 hover:text-blue-400"
+            >
+              // Empresas & Proveedores
             </a>
             {onOpenCloser && (
               <button
@@ -140,7 +164,7 @@ export function Header({ onEvaluar, onOpenCloser }: HeaderProps) {
                 }}
                 className="text-left font-mono text-xs uppercase tracking-[0.18em] text-blue-400 hover:underline"
               >
-                // Abrir Terminal Closer_Novatria
+                // Abrir Terminal Closer
               </button>
             )}
           </nav>

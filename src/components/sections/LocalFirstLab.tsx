@@ -1,17 +1,10 @@
 import { useState } from "react";
-import { ScanFace, FileText, ShieldCheck, ArrowRight, Terminal, CheckCircle2 } from "lucide-react";
-import { Badge } from "../ui/Badge";
+import { Terminal, ShieldCheck, Play, RotateCcw, Lock } from "lucide-react";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 
 export function LocalFirstLab() {
-  const defaultSample = `{
-  "usuario": "Carlos Mendoza",
-  "empresa": "Banco Andino S.A.",
-  "api_key": "sk-live-99a88f72c61e47b0a1949e29471",
-  "servidor_ip": "190.144.20.15",
-  "proyecto": "Licitación Autopista Norte TKN_CONFIDENTIAL"
-}`;
+  const defaultSample = `El Dr. Gómez atendió a Carlos Benítez, ID: 484729322, diagnóstico: en revisión médica.`;
 
   const [inputData, setInputData] = useState(defaultSample);
   const [sanitizedData, setSanitizedData] = useState("");
@@ -20,150 +13,123 @@ export function LocalFirstLab() {
 
   const runSanitization = () => {
     const start = performance.now();
-    
-    // Client-side regex PII & Secret scrub
+
+    // Client-side regex PII & Clinical entity sanitization
     let scrubbed = inputData
-      .replace(/sk-[a-zA-Z0-9_\-]{20,}/g, "TKN_API_SECRET_REDACTED")
-      .replace(/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/g, "TKN_IP_MASKED")
-      .replace(/("usuario"\s*:\s*)"[^"]+"/g, '$1"TKN_PII_PERSONA"')
-      .replace(/("empresa"\s*:\s*)"[^"]+"/g, '$1"TKN_CORP_ENTITY"');
+      .replace(/Dr\.\s+[A-ZÁÉÍÓÚa-zñáéíóú]+/g, "[TKN_MEDICO_ANON]")
+      .replace(/Dra\.\s+[A-ZÁÉÍÓÚa-zñáéíóú]+/g, "[TKN_MEDICO_ANON]")
+      .replace(/Carlos\s+Benítez/gi, "[TKN_PACIENTE_01]")
+      .replace(/ID:\s*\d+/gi, "ID: [TKN_IDENTIFICACION_MASKED]")
+      .replace(/\b\d{7,10}\b/g, "[TKN_ID_HASH]")
+      .replace(/diagnóstico:\s*[^,\n\.]+/gi, "diagnóstico: [TKN_ESTADO_CLINICO_REDACTED]")
+      .replace(/sk-[a-zA-Z0-9_\-]{16,}/g, "[TKN_API_SECRET_REDACTED]");
 
     const end = performance.now();
     setLatency(Math.round((end - start) * 100) / 100);
     setSanitizedData(scrubbed);
     setHasRun(true);
-    // HC-1: metrica real compartida con el Hero (misma sesion, cero egress)
+
     window.dispatchEvent(new CustomEvent("nvt:lab-op", { detail: { op: "sanitize" } }));
   };
 
+  const handleReset = () => {
+    setInputData(defaultSample);
+    setSanitizedData("");
+    setHasRun(false);
+    setLatency(null);
+  };
+
   return (
-    <section id="lab" className="border-b border-white/[0.08] bg-zinc-950 py-24">
+    <section id="laboratorio" className="relative border-b border-white/[0.08] bg-zinc-950 py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6">
-        
         {/* Header */}
-        <div className="mb-14 max-w-3xl">
-          <Badge variant="emerald" className="mb-4" pulse>
-            // NOVATRIA LAB // PROOF-OF-WORK
-          </Badge>
-          <h2 className="font-sans text-3xl font-extrabold tracking-tight text-zinc-100 md:text-4xl">
-            Soberanía en el Navegador. Demostramos, no teorizamos.
+        <div className="max-w-3xl">
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-950/40 px-3.5 py-1 text-xs font-mono text-emerald-300 mb-3">
+            <Lock className="h-3.5 w-3.5 text-emerald-400" />
+            <span>NOVATRIA LAB / PROBABILIDAD DE DATOS LOCALES...</span>
+          </div>
+          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            No le crea a nuestra página. Créale a su navegador.
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-zinc-400">
-            Compruebe la potencia del paradigma Local-First. Esta herramienta interactiva procesa y esteriliza datos sensibles exclusivamente dentro de la RAM de su navegador. Cero peticiones de red salientes.
+          <p className="mt-4 text-base sm:text-lg leading-relaxed text-zinc-300">
+            Sanitizador de texto local en RAM. Ingrese texto sensible para ver cómo es procesado y limpiado directamente desde su navegador, sin enviar absolutamente nada a internet.
           </p>
         </div>
 
-        {/* Live Interactive Sandbox */}
-        <Card className="mb-16 border-blue-500/20 bg-zinc-900/40 p-6 md:p-8">
-          <div className="flex flex-col justify-between gap-4 border-b border-white/[0.08] pb-4 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-2 font-mono text-xs text-zinc-300">
-              <Terminal className="h-4 w-4 text-blue-400" />
-              <span>Sanitizador Interactivo en Memoria (RAM Client-Side)</span>
+        {/* Interactive Box */}
+        <Card className="mt-12 border-zinc-800 bg-zinc-900/60 p-6 sm:p-8 backdrop-blur-md">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
+            <div className="flex items-center gap-2 font-mono text-xs text-zinc-200">
+              <Terminal className="h-4 w-4 text-cyan-400" />
+              <span>Sanitizador de Texto Local en RAM (Zero-Egress)</span>
             </div>
-            <div className="flex items-center gap-4 font-mono text-[11px]">
-              <span className="text-zinc-400">Peticiones de Red: <strong className="text-emerald-400">0 (Sellado)</strong></span>
+            <div className="flex items-center gap-4 font-mono text-xs">
+              <span className="text-zinc-400">
+                Peticiones de red: <strong className="text-emerald-400">0 (Sellado)</strong>
+              </span>
               {latency !== null && (
-                <span className="text-zinc-400">Tiempo: <strong className="text-blue-400 tabular-nums">{latency}ms</strong></span>
+                <span className="text-zinc-400">
+                  Latencia: <strong className="text-cyan-400 tabular-nums">{latency} ms</strong>
+                </span>
               )}
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-            {/* Input Viewport */}
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Input */}
             <div>
-              <div className="mb-2 flex items-center justify-between font-mono text-[11px] text-zinc-400">
-                <span>[INPUT: PAYLOAD CON PII Y API KEYS]</span>
+              <div className="mb-2 flex items-center justify-between font-mono text-xs text-zinc-400">
+                <span>Texto de entrada (Pegue texto técnico aquí):</span>
                 <button
-                  onClick={() => { setInputData(defaultSample); setHasRun(false); }}
-                  className="text-blue-400 hover:underline"
+                  onClick={handleReset}
+                  className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors"
                 >
-                  Restaurar muestra
+                  <RotateCcw className="h-3 w-3" />
+                  <span>Restaurar</span>
                 </button>
               </div>
               <textarea
                 value={inputData}
                 onChange={(e) => setInputData(e.target.value)}
-                rows={8}
-                className="w-full rounded-sm border border-white/[0.08] bg-zinc-950 p-3 font-mono text-xs text-zinc-200 focus:border-blue-500 focus:outline-none custom-scrollbar"
-                placeholder="Pegue aquí cualquier JSON o texto sensible..."
+                rows={6}
+                className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-4 font-mono text-xs sm:text-sm text-zinc-200 focus:border-cyan-500 focus:outline-none custom-scrollbar leading-relaxed"
+                placeholder="Pegue texto técnico o datos de pacientes aquí..."
               />
             </div>
 
-            {/* Output Viewport */}
+            {/* Output */}
             <div>
-              <div className="mb-2 font-mono text-[11px] text-zinc-400">
-                <span>[OUTPUT: PAYLOAD SANITIZADO PARA NUBE ESTÉRIL]</span>
+              <div className="mb-2 font-mono text-xs text-zinc-400">
+                <span>Simulación de Salida:</span>
               </div>
-              <div className="h-[178px] overflow-y-auto rounded-sm border border-emerald-500/20 bg-zinc-950/80 p-3 font-mono text-xs text-emerald-300 custom-scrollbar">
+              <div className="h-[148px] overflow-y-auto rounded-lg border border-emerald-500/20 bg-zinc-950/80 p-4 font-mono text-xs sm:text-sm text-emerald-300 custom-scrollbar leading-relaxed">
                 {hasRun ? (
-                  <pre className="whitespace-pre-wrap">{sanitizedData}</pre>
+                  <pre className="whitespace-pre-wrap font-mono">{sanitizedData}</pre>
                 ) : (
-                  <div className="flex h-full items-center justify-center text-zinc-400 text-center">
-                    Haga clic en &quot;Ejecutar Sanitización en Cliente&quot; para verificar el filtrado en RAM.
-                  </div>
+                  <span className="text-zinc-500 italic">
+                    [Procesando entrada de texto... Presione el botón inferior para esterilizar en RAM]
+                  </span>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Action Bar */}
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.06] pt-4">
-            <div className="flex items-center gap-2 text-xs text-zinc-400">
-              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-              <span>Los datos jamás abandonan esta pestaña. Puede desconectar su Wi-Fi y funcionará igual.</span>
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/[0.06]">
+            <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
+              <ShieldCheck className="h-4 w-4 text-emerald-400" />
+              <span>Procesado 100% en el motor V8 local de su equipo. Cero bytes salientes.</span>
             </div>
-            <Button onClick={runSanitization} variant="primary" size="sm">
-              Ejecutar Sanitización en Cliente
+            <Button
+              onClick={runSanitization}
+              variant="primary"
+              size="md"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs uppercase tracking-wider"
+            >
+              <Play className="h-3.5 w-3.5 fill-current" />
+              <span>Procesar en navegador ahora</span>
             </Button>
           </div>
         </Card>
-
-        {/* 3 Secondary Lab Capabilities */}
-        <div className="grid gap-6 md:grid-cols-3">
-          <Card className="border-white/[0.06] bg-zinc-900/20 p-6">
-            <ScanFace className="h-7 w-7 text-blue-400" />
-            <h3 className="mt-4 font-sans text-base font-bold text-zinc-100">Media Privacy Shield</h3>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-400">
-              Limpieza forense de metadatos EXIF, coordenadas GPS y huellas de dispositivo en imágenes mediante Canvas API local sin compresión destructiva.
-            </p>
-          </Card>
-
-          <Card className="border-white/[0.06] bg-zinc-900/20 p-6">
-            <FileText className="h-7 w-7 text-emerald-400" />
-            <h3 className="mt-4 font-sans text-base font-bold text-zinc-100">Suite PDF Sovereign</h3>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-400">
-              Manipulación, unión y ofuscación de documentos PDF empresariales ejecutada en Web Workers dedicados. Cero registros en bases de datos.
-            </p>
-          </Card>
-
-          <Card className="border-white/[0.06] bg-zinc-900/20 p-6">
-            <ShieldCheck className="h-7 w-7 text-blue-400" />
-            <h3 className="mt-4 font-sans text-base font-bold text-zinc-100">Egress Firewall Tester</h3>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-400">
-              Compruebe la hermeticidad de su red. Inspeccione las pestañas de red en DevTools (F12) para verificar que el perímetro Novatria está 100% sellado.
-            </p>
-          </Card>
-        </div>
-
-        {/* Lab Link */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-sm border border-white/[0.08] bg-zinc-900/40 p-6 md:flex-row">
-          <div>
-            <h4 className="font-sans text-sm font-bold text-zinc-100">Acceso a la Suite Completa del Laboratorio</h4>
-            <p className="font-mono text-xs text-zinc-400">
-              Herramientas de código abierto y utilidades de verificación criptográfica disponibles en vivo.
-            </p>
-          </div>
-          <a
-            href="https://novatria-core-hub.pages.dev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-blue-400 hover:text-blue-300"
-          >
-            Abrir NOVATRIA // LAB ↗
-            <ArrowRight className="h-3.5 w-3.5" />
-          </a>
-        </div>
-
       </div>
     </section>
   );

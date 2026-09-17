@@ -1,232 +1,133 @@
-import { useState, useEffect } from "react";
-import { ArrowRight, ShieldCheck, Lock, Activity, Terminal as TerminalIcon, Check } from "lucide-react";
-import { Badge } from "../ui/Badge";
-import { Button } from "../ui/Button";
-import { DragonBackdrop } from "../ui/DragonBackdrop";
+import { useRef } from "react";
+import { ArrowRight, ShieldCheck, Cpu, Zap } from "lucide-react";
 
 interface HeroSectionProps {
   onEvaluar: () => void;
-  onOpenTerminal: () => void;
+  onOpenTerminal?: () => void;
 }
 
-export function HeroSection({ onEvaluar, onOpenTerminal }: HeroSectionProps) {
-  const [activeTab, setActiveTab] = useState<"perimeter" | "egress" | "integrity">("perimeter");
-  // HC-1: metrica real de sesion (operaciones de sanitizacion del lab, via evento compartido)
-  const [packetCount, setPacketCount] = useState(0);
-  const [lastHash, setLastHash] = useState("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+export function HeroSection({ onEvaluar }: HeroSectionProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // HC-1: escucha operaciones reales del lab (mismo documento, cero red)
-  useEffect(() => {
-    const onOp = () => setPacketCount((prev) => prev + 1);
-    window.addEventListener("nvt:lab-op", onOp);
-    return () => window.removeEventListener("nvt:lab-op", onOp);
-  }, []);
-
-  // HC-1: SHA-256 REAL via WebCrypto (local, cero egress) sobre el payload de la demo
-  const handleVerify = async () => {
-    const payload = `NOVATRIA-ENCLAVE-${packetCount}-${new Date().toISOString()}`;
-    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(payload));
-    const hex = Array.from(new Uint8Array(buf))
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-    setLastHash(hex);
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      onEvaluar();
+    }
   };
 
   return (
-    <section className="relative overflow-hidden border-b border-white/[0.08] py-20 lg:py-28">
-      {/* Sovereign Tribal Dragon Backdrop & Vignette Grid */}
-      <DragonBackdrop />
-      <div className="bg-grid mask-radial-vignette pointer-events-none absolute inset-0 opacity-15" />
+    <section
+      ref={containerRef}
+      className="relative overflow-hidden border-b border-white/[0.08] bg-zinc-950 pt-16 pb-20 md:pt-24 md:pb-28"
+    >
+      {/* Background ambient radial gradients */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-gradient-to-b from-blue-600/15 via-cyan-500/10 to-transparent blur-3xl" />
+        <div className="absolute top-1/3 -left-40 h-[400px] w-[400px] rounded-full bg-emerald-500/10 blur-3xl" />
+        <div className="absolute top-1/2 -right-40 h-[400px] w-[400px] rounded-full bg-blue-500/10 blur-3xl" />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-6">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
-          
-          {/* Left Column: Mission Manifesto */}
-          <div className="lg:col-span-7">
-            <div className="mb-5 inline-flex items-center gap-2">
-              <Badge variant="cobalt" pulse>
-                INGENIERÍA SOBERANA // ENCLAVE AIR-GAPPED
-              </Badge>
+      <div className="mx-auto max-w-7xl px-6">
+        {/* Top Tagline */}
+        <div className="flex justify-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-950/40 px-4 py-1.5 backdrop-blur-md">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+            </span>
+            <span className="font-mono text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">
+              TALOS FUNCIONA MIENTRAS USTED ATIENDE. O MIENTRAS DUERME.
+            </span>
+          </div>
+        </div>
+
+        {/* Main Heading */}
+        <div className="mt-8 text-center max-w-4xl mx-auto">
+          <h1 className="font-sans text-4xl font-extrabold tracking-tight text-zinc-100 sm:text-6xl md:text-7xl leading-[1.08]">
+            ¿Cuántos clientes dejaron de venir{" "}
+            <span className="bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">
+              este mes?
+            </span>
+          </h1>
+
+          <p className="mt-6 text-base sm:text-lg md:text-xl leading-relaxed text-zinc-300 max-w-3xl mx-auto">
+            No lo notó, porque los clientes no se van:{" "}
+            <strong className="text-white font-semibold">dejan de venir</strong>. Talos los detecta, les
+            escribe por WhatsApp con el tono de su negocio, y los mete de nuevo en su agenda.{" "}
+            <span className="text-cyan-300 font-medium">Usted no mueve un dedo.</span>
+          </p>
+
+          {/* Action Buttons */}
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={() => scrollToSection("diagnostico")}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md bg-blue-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition-all hover:bg-blue-500 hover:shadow-blue-500/35 active:scale-[0.98]"
+            >
+              <span>Tengo un negocio: ¿cuánto estoy perdiendo?</span>
+              <ArrowRight className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => scrollToSection("empresas")}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md border border-zinc-700 bg-zinc-900/80 px-6 py-3.5 text-sm font-medium text-zinc-200 backdrop-blur-sm transition-all hover:border-zinc-500 hover:bg-zinc-800 hover:text-white active:scale-[0.98]"
+            >
+              <span>Soy proveedor de tecnología</span>
+              <span className="text-zinc-500">→</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 3 Value Proposition Cards */}
+        <div className="mt-16 sm:mt-20 grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* Card 1 */}
+          <div className="group relative rounded-xl border border-emerald-500/20 bg-zinc-900/60 p-6 backdrop-blur-md transition-all duration-300 hover:border-emerald-500/40 hover:bg-zinc-900/80">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+                <ShieldCheck className="h-5 w-5" />
+              </div>
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-emerald-400">
+                1. SUS DATOS VIVEN EN SU SERVIDOR
+              </span>
             </div>
-
-            <h1 className="font-sans text-4xl font-extrabold tracking-tight text-zinc-100 sm:text-5xl lg:text-6xl">
-              Infraestructura de IA Soberana.{" "}
-              <span className="text-blue-500">Cero Exfiltración</span> a Nubes Públicas.
-            </h1>
-
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg">
-              Desplegamos búnkers digitales de alta fidelidad con arquitectura Zero-Trust. Ejecute modelos y flujos de trabajo en Edge Network y hardware local: su propiedad intelectual nunca viaja a servidores de terceros ni alimenta suscripciones ajenas.
+            <p className="mt-4 text-xs sm:text-sm leading-relaxed text-zinc-300">
+              Sus datos viven en <strong className="text-white">SU servidor</strong> — jamás en nubes ajenas.
+              Sin fugas ni envío de expedientes o datos de sus clientes.
             </p>
-
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Button onClick={onEvaluar} size="lg" variant="primary">
-                Solicitar Auditoría de Perímetro
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-              <Button onClick={onOpenTerminal} size="lg" variant="secondary">
-                <TerminalIcon className="h-4 w-4 text-blue-400" />
-                Interrogar Agente Closer
-              </Button>
-            </div>
-
-            {/* Quick trust markers */}
-            <div className="mt-10 grid grid-cols-3 gap-6 border-t border-white/[0.06] pt-6 text-left">
-              <div>
-                <div className="font-mono text-xl font-bold text-zinc-100 tabular-nums">0 ms</div>
-                <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
-                  Latencia Egress
-                </div>
-              </div>
-              <div>
-                <div className="font-mono text-xl font-bold text-emerald-400 tabular-nums">100%</div>
-                <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
-                  Soberanía de Datos
-                </div>
-              </div>
-              <div>
-                <div className="font-mono text-xl font-bold text-blue-400 tabular-nums">Zod / Strict</div>
-                <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
-                  Tipado Inmutable
-                </div>
-              </div>
-            </div>
           </div>
 
-          {/* Right Column: Enclave Live Monitor (Tactical Console) */}
-          <div className="lg:col-span-5">
-            <div className="relative rounded-sm bg-zinc-950/90 p-5 specular-card shadow-2xl backdrop-blur-xl">
-              {/* Header Bar */}
-              <div className="flex items-center justify-between border-b border-white/[0.08] pb-3.5">
-                <div className="flex items-center gap-2">
-                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 pulse-dot" />
-                  <span className="font-mono text-xs font-semibold uppercase tracking-widest text-zinc-200">
-                    Sovereign Enclave Monitor
-                  </span>
-                </div>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
-                  NODE-01 // AIR-GAPPED
-                </span>
+          {/* Card 2 */}
+          <div className="group relative rounded-xl border border-blue-500/20 bg-zinc-900/60 p-6 backdrop-blur-md transition-all duration-300 hover:border-blue-500/40 hover:bg-zinc-900/80">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-blue-500/30 bg-blue-500/10 text-blue-400">
+                <Cpu className="h-5 w-5" />
               </div>
-
-              {/* Console Tabs */}
-              <div className="mt-3 flex gap-1 border-b border-white/[0.06] pb-2 text-[11px] font-mono">
-                <button
-                  onClick={() => setActiveTab("perimeter")}
-                  className={`px-2.5 py-1 transition-colors ${
-                    activeTab === "perimeter"
-                      ? "border-b border-blue-500 text-blue-400 font-semibold"
-                      : "text-zinc-400 hover:text-zinc-200"
-                  }`}
-                >
-                  [Perímetro]
-                </button>
-                <button
-                  onClick={() => setActiveTab("egress")}
-                  className={`px-2.5 py-1 transition-colors ${
-                    activeTab === "egress"
-                      ? "border-b border-blue-500 text-blue-400 font-semibold"
-                      : "text-zinc-400 hover:text-zinc-200"
-                  }`}
-                >
-                  [Filtro Egress]
-                </button>
-                <button
-                  onClick={() => setActiveTab("integrity")}
-                  className={`px-2.5 py-1 transition-colors ${
-                    activeTab === "integrity"
-                      ? "border-b border-blue-500 text-blue-400 font-semibold"
-                      : "text-zinc-400 hover:text-zinc-200"
-                  }`}
-                >
-                  [Cripto-Hash]
-                </button>
-              </div>
-
-              {/* Console Body */}
-              <div className="mt-4 min-h-[220px]">
-                {activeTab === "perimeter" && (
-                  <div className="space-y-3 font-mono text-xs">
-                    <div className="flex items-center justify-between bg-zinc-900/50 px-3 py-2 border border-white/[0.04]">
-                      <span className="text-zinc-400">Estado de Aislamiento:</span>
-                      <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
-                        <ShieldCheck className="h-3.5 w-3.5" /> SELLADO
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between px-3 py-1.5">
-                      <span className="text-zinc-400">Ruta Inferencia:</span>
-                      <span className="text-zinc-200">Local UDS (Ollama Native)</span>
-                    </div>
-                    <div className="flex items-center justify-between px-3 py-1.5">
-                      <span className="text-zinc-400">Paquetes Verificados:</span>
-                      <span className="text-blue-400 font-bold tabular-nums">
-                        {packetCount.toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between px-3 py-1.5">
-                      <span className="text-zinc-400">Almacenamiento de Llaves:</span>
-                      <span className="text-zinc-200">Memory-Only Vault (0 Disco)</span>
-                    </div>
-                    <div className="mt-4 rounded-sm border border-emerald-500/20 bg-emerald-950/20 p-2.5 text-[11px] text-emerald-300 flex items-center gap-2">
-                      <Lock className="h-3.5 w-3.5 shrink-0" />
-                      <span>Zero-Knowledge Policy: Cero telemetría enviada a terceros.</span>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === "egress" && (
-                  <div className="space-y-2.5 font-mono text-xs">
-                    <div className="text-[10px] text-zinc-400 uppercase tracking-widest">
-                      // Reglas de Cortafuegos de Tráfico
-                    </div>
-                    <div className="flex items-center justify-between rounded bg-zinc-900/60 p-2 border border-white/[0.04]">
-                      <span className="text-zinc-300">api.openai.com</span>
-                      <span className="text-red-400 font-semibold">[DROPPED // BLOCKED]</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded bg-zinc-900/60 p-2 border border-white/[0.04]">
-                      <span className="text-zinc-300">api.anthropic.com</span>
-                      <span className="text-red-400 font-semibold">[DROPPED // BLOCKED]</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded bg-emerald-950/30 p-2 border border-emerald-500/30">
-                      <span className="text-emerald-300">localhost:11434 (Unix Socket)</span>
-                      <span className="text-emerald-400 font-semibold">[PERMITTED // SECURE]</span>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === "integrity" && (
-                  <div className="space-y-3 font-mono text-xs">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] text-zinc-400 uppercase tracking-widest">
-                        // Firma SHA-256 del Bundle
-                      </span>
-                      <button
-                        onClick={handleVerify}
-                        className="text-[10px] text-blue-400 hover:text-blue-300 underline"
-                      >
-                        Re-verificar
-                      </button>
-                    </div>
-                    <div className="break-all rounded bg-zinc-900/80 p-3 text-[10px] leading-relaxed text-zinc-300 border border-white/[0.06]">
-                      {lastHash}
-                    </div>
-                    <div className="flex items-center gap-2 text-[11px] text-emerald-400">
-                      <Check className="h-3.5 w-3.5" />
-                      <span>SHA-256 verificado en cliente (WebCrypto local)</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Live Activity Pulse Footer */}
-              <div className="mt-4 flex items-center justify-between border-t border-white/[0.08] pt-3 font-mono text-[10px] text-zinc-400">
-                <span className="flex items-center gap-1.5">
-                  <Activity className="h-3 w-3 text-emerald-400" /> Telemetría de Nodo Activa
-                </span>
-                <span className="text-zinc-400">v1.0.0-sovereign</span>
-              </div>
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-blue-400">
+                2. EL COSTO EMPRESARIAL
+              </span>
             </div>
+            <p className="mt-4 text-xs sm:text-sm leading-relaxed text-zinc-300">
+              Costo fijo mensual. Sin consumo por uso. Inversión fija controlada. Elimine millones de consultas
+              por token de nubes públicas.
+            </p>
           </div>
 
+          {/* Card 3 */}
+          <div className="group relative rounded-xl border border-cyan-500/20 bg-zinc-900/60 p-6 backdrop-blur-md transition-all duration-300 hover:border-cyan-500/40 hover:bg-zinc-900/80">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-400">
+                <Zap className="h-5 w-5" />
+              </div>
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-cyan-400">
+                3. ACTIVIDAD CONTINUA
+              </span>
+            </div>
+            <p className="mt-4 text-xs sm:text-sm leading-relaxed text-zinc-300">
+              Trabajando 24/7, incluso hoy domingo. El motor de Inteligencia Artificial ejecuta la reactivación
+              constante sin descansos.
+            </p>
+          </div>
         </div>
       </div>
     </section>
