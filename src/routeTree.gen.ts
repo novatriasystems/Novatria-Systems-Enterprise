@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiCheckoutRouteImport } from './routes/api/checkout'
 import { Route as ApiCloserRouteImport } from './routes/api/closer'
 import { Route as ApiContactRouteImport } from './routes/api/contact'
 import { Route as ApiPaymentRouteImport } from './routes/api/payment'
@@ -18,6 +19,11 @@ import { Route as ApiWebhookRouteImport } from './routes/api/webhook'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCheckoutRoute = ApiCheckoutRouteImport.update({
+  id: '/api/checkout',
+  path: '/api/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiCloserRoute = ApiCloserRouteImport.update({
@@ -43,6 +49,7 @@ const ApiWebhookRoute = ApiWebhookRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/checkout': typeof ApiCheckoutRoute
   '/api/closer': typeof ApiCloserRoute
   '/api/contact': typeof ApiContactRoute
   '/api/payment': typeof ApiPaymentRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/checkout': typeof ApiCheckoutRoute
   '/api/closer': typeof ApiCloserRoute
   '/api/contact': typeof ApiContactRoute
   '/api/payment': typeof ApiPaymentRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/checkout': typeof ApiCheckoutRoute
   '/api/closer': typeof ApiCloserRoute
   '/api/contact': typeof ApiContactRoute
   '/api/payment': typeof ApiPaymentRoute
@@ -66,12 +75,24 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/api/closer' | '/api/contact' | '/api/payment' | '/api/webhook'
+    | '/'
+    | '/api/checkout'
+    | '/api/closer'
+    | '/api/contact'
+    | '/api/payment'
+    | '/api/webhook'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/closer' | '/api/contact' | '/api/payment' | '/api/webhook'
+  to:
+    | '/'
+    | '/api/checkout'
+    | '/api/closer'
+    | '/api/contact'
+    | '/api/payment'
+    | '/api/webhook'
   id:
     | '__root__'
     | '/'
+    | '/api/checkout'
     | '/api/closer'
     | '/api/contact'
     | '/api/payment'
@@ -80,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiCheckoutRoute: typeof ApiCheckoutRoute
   ApiCloserRoute: typeof ApiCloserRoute
   ApiContactRoute: typeof ApiContactRoute
   ApiPaymentRoute: typeof ApiPaymentRoute
@@ -93,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/checkout': {
+      id: '/api/checkout'
+      path: '/api/checkout'
+      fullPath: '/api/checkout'
+      preLoaderRoute: typeof ApiCheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/closer': {
@@ -128,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiCheckoutRoute: ApiCheckoutRoute,
   ApiCloserRoute: ApiCloserRoute,
   ApiContactRoute: ApiContactRoute,
   ApiPaymentRoute: ApiPaymentRoute,

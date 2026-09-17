@@ -106,7 +106,7 @@ export function CloserTerminal({ isOpen, onClose }: CloserTerminalProps) {
         const next = [...prev];
         next[assistantIndex] = {
           role: "assistant",
-          content: `[AVISO DE ENCLAVE]: No fue posible conectar con Ollama local (/api/closer: ${errorMessage}). Asegúrese de tener el runtime local levantado en el puerto 11434 con el modelo qwen2.5 o deepseek-r1.`,
+          content: `[AVISO DE ENCLAVE]: El enclave de inferencia no está disponible en este momento (/api/closer: ${errorMessage}). Nuestro agente de cierre opera con IA local: inténtalo más tarde o solicita atención directa por el formulario de diagnóstico.`,
         };
         return next;
       });

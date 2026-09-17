@@ -98,3 +98,22 @@
   bloque, jamas se delegan a edicion manual. Corregido + guard CJK permanente en gates.
 - Incidencias de proceso: builder ESM con require (corregido a import); backtick-n en
   package.json (segunda vez — regla: configs solo reescritura completa).
+
+## WP4 — FUNNEL + STOREFRONT (CIERRE) — 18-sep
+- 5c adaptacion: PerimeterAssessment evoluciona EN SU ARCHIVO (git mv diferido a WP5;
+  el nombre de archivo no es contrato publico). Zod cliente (mismo schema del server),
+  dropdown nicho_interes (8 valores), checkbox Ley 1581 OBLIGATORIO, score mostrado =
+  el del server (SC-1 cierra circulo en UI).
+- 5d: CloserTerminal sin modelos hardcodeados (referencia generica al enclave).
+- 5e E-3 STOREFRONT: 4 ofertas con CTA -> POST /api/checkout -> Checkout Session
+  (subscription, metadata offer_id que el webhook ya consume) -> redirect Stripe.
+  /api/checkout: rate limit 10/min, Zod enum, price IDs por STRIPE_PRICE_MAP_JSON,
+  503 si falta price_id. 2 servicios de consultoria conservados como posicionamiento.
+  DECISION coherencia: Obsidian B2B retirado del grid (externalUrl a proyecto hermano,
+  no vendible aqui).
+- HALLAZGO HD-2: nueva ruta API exige regen de routeTree.gen.ts ANTES del primer tsc -b
+  (orden del script build: tsc corre antes de vite). Secuencia: vite build (regen) ->
+  tsc -b -> pnpm run build. Costo: 1 gate rojo documentado, cero daño (bloque aislado).
+- 5b mini-terminal Hero + pre-carga bienvenida: DIFERIDO a WP5 (mismo archivo que HC-1).
+  DECISION Arquitecto reversible: pre-carga con bienvenida (conversion).
+- GATES: tsc + build + grep-any v2 + CJK — verdes.
