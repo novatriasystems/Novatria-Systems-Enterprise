@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { insertLead } from "../../lib/lead-store";
 import { createRateLimiter } from "../../lib/rate-limit";
+import { contactSchema } from "../../lib/schemas/contact.schema";
 
 const contactRateLimiter = createRateLimiter({
   windowMs: 60_000,
@@ -15,24 +16,20 @@ function getClientIp(request: Request): string {
   return "unknown";
 }
 
-export interface ContactPayload {
-  fullName: string;
-  workEmail: string;
-  company: string;
+/**
+ * SC-1: el score se recalcula SIEMPRE server-side desde las respuestas.
+ * El score del cliente se ignora (suplantable). Misma formula que el modal
+ * (documentado): base 50 + public_cloud 35 + compliance high 10.
+ */
+function computeRiskScore(input: {
   infrastructureType?: string;
   workload?: string;
   complianceNeeds?: string;
-  score?: number;
-  nichoInteres?: string;
-}
-
-function isValidContact(data: unknown): data is ContactPayload {
-  if (!data || typeof data !== "object") return false;
-  const obj = data as Record<string, unknown>;
-  if (typeof obj.fullName !== "string" || obj.fullName.trim().length < 2) return false;
-  if (typeof obj.workEmail !== "string" || !obj.workEmail.includes("@") || !obj.workEmail.includes(".")) return false;
-  if (typeof obj.company !== "string" || obj.company.trim().length < 2) return false;
-  return true;
+}): number {
+  let score = 50;
+  if (input.infrastructureType === "public_cloud") score += 35;
+  if (input.complianceNeeds === "high") score += 10;
+  return score;
 }
 
 function generateAuditReference(): string {
@@ -51,7 +48,6 @@ export const Route = createFileRoute("/api/contact")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        // Rate limiting
         const clientIp = getClientIp(request);
         if (!contactRateLimiter.check(clientIp)) {
           return new Response("Rate limit exceeded. Espere 60 segundos.", {
@@ -60,9 +56,9 @@ export const Route = createFileRoute("/api/contact")({
           });
         }
 
-        let body: unknown;
+        let raw: unknown;
         try {
-          body = await request.json();
+          raw = await request.json();
         } catch {
           return new Response(JSON.stringify({ error: "Invalid JSON format" }), {
             status: 400,
@@ -70,21 +66,29 @@ export const Route = createFileRoute("/api/contact")({
           });
         }
 
-        if (!isValidContact(body)) {
+        // CT-1: validacion Zod unica (type guards manuales eliminados)
+        const parsed = contactSchema.safeParse(raw);
+        if (!parsed.success) {
           return new Response(
-            JSON.stringify({ error: "Unprocessable payload: check required fields" }),
+            JSON.stringify({
+              error: "Unprocessable payload",
+              issues: parsed.error.issues.map((i) => ({
+                path: i.path.join("."),
+                message: i.message,
+              })),
+            }),
             { status: 422, headers: { "Content-Type": "application/json" } }
           );
         }
+        const body = parsed.data;
 
         const reference = generateAuditReference();
         const timestamp = new Date().toISOString();
         const emailDomain = extractEmailDomain(body.workEmail);
+        const score = computeRiskScore(body); // SC-1: server-side, no confiamos en cliente
 
-        // Enclave Audit Log (solo reference + score — PII minimizado según Ley 1581)
-        console.log(`[PERIMETER AUDIT REGISTERED]: Ref ${reference} | Score: ${body.score ?? "N/A"}%`);
+        console.log(`[PERIMETER AUDIT REGISTERED]: Ref ${reference} | Score: ${score}%`);
 
-        // Persistencia en SQLite (lead-store)
         try {
           insertLead(
             reference,
@@ -92,11 +96,10 @@ export const Route = createFileRoute("/api/contact")({
             body.company,
             emailDomain,
             body.nichoInteres ?? null,
-            body.score ?? null
+            score
           );
         } catch (err) {
           console.error(`Lead persistence failed: ${err}`);
-          // No bloqueamos la respuesta por fallo de persistencia
         }
 
         return new Response(
@@ -104,12 +107,10 @@ export const Route = createFileRoute("/api/contact")({
             status: "REGISTERED",
             reference,
             timestamp,
+            score,
             message: "Evaluación perimetral registrada en el enclave confidencial de Novatria.",
           }),
-          {
-            status: 201,
-            headers: { "Content-Type": "application/json" },
-          }
+          { status: 201, headers: { "Content-Type": "application/json" } }
         );
       },
       OPTIONS: async () =>

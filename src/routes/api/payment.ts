@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createRateLimiter } from "../../lib/rate-limit";
+import { paymentSchema } from "../../lib/schemas/payment.schema";
 
 const paymentRateLimiter = createRateLimiter({
   windowMs: 60_000,
@@ -14,31 +15,6 @@ function getClientIp(request: Request): string {
   return "unknown";
 }
 
-type CardPayload = {
-  method: "card";
-  brand_hint: string;
-  last4: string;
-  exp: string;
-  holder_len: number;
-};
-
-type PsePayload = {
-  method: "pse";
-  person_type: "natural" | "juridica";
-  bank: string;
-  doc_type: "CC" | "CE" | "NIT" | "PP";
-  doc_last: string;
-  email_domain: string;
-};
-
-type Payload = CardPayload | PsePayload;
-
-function isPayload(x: unknown): x is Payload {
-  if (!x || typeof x !== "object") return false;
-  const m = (x as { method?: unknown }).method;
-  return m === "card" || m === "pse";
-}
-
 function reference(): string {
   const bytes = new Uint8Array(8);
   crypto.getRandomValues(bytes);
@@ -50,7 +26,6 @@ export const Route = createFileRoute("/api/payment")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        // Rate limiting
         const clientIp = getClientIp(request);
         if (!paymentRateLimiter.check(clientIp)) {
           return new Response("Rate limit exceeded. Espere 60 segundos.", {
@@ -59,15 +34,29 @@ export const Route = createFileRoute("/api/payment")({
           });
         }
 
-        let body: unknown;
+        let raw: unknown;
         try {
-          body = await request.json();
+          raw = await request.json();
         } catch {
           return new Response("Bad JSON", { status: 400 });
         }
-        if (!isPayload(body)) {
-          return new Response("Invalid payload", { status: 422 });
+
+        // CT-1: discriminantedUnion valida AMBAS ramas (card|pse) campo a campo
+        const parsed = paymentSchema.safeParse(raw);
+        if (!parsed.success) {
+          return new Response(
+            JSON.stringify({
+              error: "Invalid payload",
+              issues: parsed.error.issues.map((i) => ({
+                path: i.path.join("."),
+                message: i.message,
+              })),
+            }),
+            { status: 422, headers: { "Content-Type": "application/json" } }
+          );
         }
+        const body = parsed.data;
+
         // Perimeter stub: no persistence, no external SaaS call.
         return Response.json({
           status: "ACCEPTED",

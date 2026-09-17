@@ -61,3 +61,19 @@
 - 2e: README real. 2f: cumplido (SDD in-repo, 83d0afc).
 - Desviacion aceptada: commits incrementales por sub-tarea vs commit unico por WP
   (post-incidente, gates atomicos por paso).
+
+## WP3 — CONTRATOS ZOD + SCORE SERVER-SIDE (CIERRE) — 17-sep
+- zod 3.25.76. Schemas: contact (NICHOS_PROVISIONAL enum 3c), closer (messages 1-40,
+  content <=8000, roles user|assistant — el cliente ya filtra system), payment
+  (discriminatedUnion card|pse con regex de campos).
+- CT-1: 4 handlers -> safeParse -> 422 con issues tipados. Type guards manuales eliminados.
+- SC-1: score recalculado server-side (50 + 35 public_cloud + 10 high); el del cliente
+  se ignora; el calculado se devuelve y persiste.
+- Regresion WP1 verificada por lectura: insertLead, rate limits, CL-1 intactos.
+- GATES: tsc -b verde, build verde (138 modulos SSR, zod bundlado).
+- HALLAZGO GD-1: el gate grep-any detecto "as any" en routeTree.gen.ts — archivo
+  GENERADO por @tanstack/router-plugin (regen por build, no editable). Segunda leccion
+  de la familia HD-1: los gates de codigo escrito EXCLUYEN explicitamente artefactos
+  generados. Gate v2 aplicado: 0 coincidencias excluyendo *.gen.ts.
+- Regla nueva GD-1: gates que auditan codigo declaran sus exclusiones de generados en
+  el propio comando, jamas implicitas.
