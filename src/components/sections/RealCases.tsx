@@ -20,7 +20,7 @@ export function RealCases() {
       title: "Hoteles y Temporadas",
       badge: "TEMPORADAS A 180 DÍAS",
       desc: "Ciclo largo (180 días), espera paciente (10 días entre toques). Talos trabaja la temporada siguiente mientras el hotel atiende la actual — con tarifas preferenciales para quienes ya estuvieron.",
-      metric: "✓ Reservas directas re-agendadas +21%",
+      metric: "✓ Reservas re-agendadas automáticamente",
       color: "border-cyan-500/30 text-cyan-400",
     },
   ];

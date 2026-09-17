@@ -198,3 +198,15 @@
 - REGLA PERMANENTE: todo agente que toque este repo termina en auditoria Arquitecto +
   commit protocolar. Constitucion extensible a Antigravity — pendiente Ingeniero.
 - PENDIENTE: verificacion visual del Ingeniero (criterio: pedagogia de ventas).
+
+## WP6 FIX-FINAL — BRECHA DE PROCESO + RESIDUOS — 19-sep
+- BRECHA: c93e2c4 y d065c21 salieron con gate rojo vigente (SGN en Header) y un
+  archivo basura commiteado. Causa: bloque de commit ejecutado tras Exception (patron
+  repetido) y replace case-sensitive que no matcheo el texto en MAYUSCULAS.
+- Correccion: comentario SGN eliminado (era comentario, cero impacto), metrica +21%
+  de RealCases sustituida por version sin cifras (cuarta variante de metrica
+  inventada — la purga de patrones no cubria rangos sueltos), archivo basura
+  eliminado del arbol y del historial forward.
+- REGLA REFORCADA: tras una Exception, el UNICO comando valido es reportar el error
+  al canal. La linea de exito jamas se copia — es literal, no veredicto.
+- state: WP6 CERRADO de verdad. Pendiente unica: verificacion visual del Ingeniero.

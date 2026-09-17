@@ -23,7 +23,6 @@ export function Header({ onEvaluar, onOpenCloser }: HeaderProps) {
                 Novatria Systems
               </span>
               <span className="hidden font-mono text-[9px] uppercase tracking-widest text-zinc-400 md:inline">
-                // SGN ARCHITECTURE CORE
               </span>
             </div>
             <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-zinc-400">
