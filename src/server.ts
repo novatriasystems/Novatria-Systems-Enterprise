@@ -6,9 +6,9 @@ import crypto from "crypto";
 
 const CSP_DIRECTIVES_BASE = [
   "default-src 'self'",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
-  "font-src 'self' https://fonts.gstatic.com",
+  "font-src 'self'",
   "connect-src 'self' https://api.stripe.com https://m.stripe.com",
   "frame-src 'self' https://js.stripe.com",
   "frame-ancestors 'none'",

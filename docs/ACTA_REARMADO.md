@@ -47,3 +47,17 @@
   resuelve relativo al directorio del tsconfig.POSITIVO: la disciplina de bloque
   aislado funciono — el gate rojo detuvo la secuencia y NADA se committeo con build roto.
 - Fix: tsconfig.app.json sin baseUrl, paths "@/*" intacto.
+
+## WP2 (CIERRE) + HALLAZGO HD-1 — 17-sep
+- 2b FT-1: fuentes self-host, @font-face, cero Google en src (verificado por grep).
+- 2d LECCION HD-1: la clasificacion "peso muerto" de src/start.ts fue ERRONEA. Es archivo
+  de convencion de TanStack Start (descubierto por ruta, no por import): su createStart
+  registra la instancia y la augmentacion de tipos que legitima server.handlers en las
+  rutas API, y su errorMiddleware normaliza errores SSR. Al retirarlo: 8 errores TS2353/
+  TS7031. REGLA NUEVA: archivos de convencion de framework jamas se clasifican muertos
+  por ausencia de importadores. Restaurado por biseccion (1 variable por paso).
+- index.html: restaurado solo si la biseccion lo exijo (ver cual bloque dio verde).
+- error-reporting.ts y vite.svg: retirados sin consecuencia (esos SI eran muertos).
+- 2e: README real. 2f: cumplido (SDD in-repo, 83d0afc).
+- Desviacion aceptada: commits incrementales por sub-tarea vs commit unico por WP
+  (post-incidente, gates atomicos por paso).
