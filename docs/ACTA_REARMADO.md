@@ -33,3 +33,10 @@
 - WP1: RE-APLICADO Y VERIFICADO. Correctivo (acta + W-2) INCLUIDO en esta entrada.
 - WP2: AUTORIZADO bajo nueva Constitucion, con comandos exactos del Arquitecto.
 - Pendiente de la sesion 16-sep: rotacion de claves API (3), USN admin, winfr USB (Kernel_Boyaca - ventana del usuario), Zotero.
+## WP2-2c — GH-1 (REMEDIACION INVERTIDA) — 17-sep
+- pnpm remove vite-tsconfig-paths (Packages -3). tsconfigPaths: true CONSERVADO en
+  vite.config.ts (nativo en Vite 8 — evidencia: warning de build de julio). Alias @/*
+  anadido a tsconfig.app.json (codigo nuevo; migracion de imports en WP5).
+- Nota de proceso: tres gates de transito del SDD dispararon falsos positivos (criterios
+  stale del Arquitecto). Autoridad: sellador estructural (10/10 secciones, 14889 chars).
+  SDD committeado: 83d0afc.
