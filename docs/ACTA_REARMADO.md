@@ -40,3 +40,10 @@
 - Nota de proceso: tres gates de transito del SDD dispararon falsos positivos (criterios
   stale del Arquitecto). Autoridad: sellador estructural (10/10 secciones, 14889 chars).
   SDD committeado: 83d0afc.
+
+## WP2-2c FIX-2 — TS5101 baseUrl deprecado — 17-sep
+- Segundo gate rojo de 2c: mi tsconfig reescrito incluyo "baseUrl": "." por habito TS5.
+  TS6 la deprecacion formal (TS5101). Migracion correcta: eliminar baseUrl; paths se
+  resuelve relativo al directorio del tsconfig.POSITIVO: la disciplina de bloque
+  aislado funciono — el gate rojo detuvo la secuencia y NADA se committeo con build roto.
+- Fix: tsconfig.app.json sin baseUrl, paths "@/*" intacto.

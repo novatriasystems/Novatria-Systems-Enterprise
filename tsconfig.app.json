@@ -16,11 +16,14 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Paths (R6/GH-1) — sin baseUrl: TS6 resuelve paths relativo al tsconfig */
+    "paths": { "@/*": ["./src/*"] },
+
     /* Linting */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "paths": { "@/*": ["./src/*"] },`n    "include": ["src"]
+  "include": ["src"]
 }
