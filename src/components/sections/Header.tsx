@@ -35,6 +35,12 @@ export function Header({ onEvaluar, onOpenCloser }: HeaderProps) {
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-8 lg:flex">
           <a
+            href="#productos"
+            className="font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-zinc-100"
+          >
+            Productos
+          </a>
+          <a
             href="#doctrina"
             className="font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-zinc-100"
           >

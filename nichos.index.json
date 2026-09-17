@@ -1,0 +1,86 @@
+{
+  "generado_de": "\\\\wsl.localhost\\Ubuntu\\home\\papel\\Talos\\nichos",
+  "total": 8,
+  "nichos": [
+    {
+      "nicho": "odontologia",
+      "nombre": "Odontología",
+      "grafo": "odontologia_reactivacion_v1",
+      "umbral_dias": 180,
+      "canal": "whatsapp_app",
+      "toques": 2,
+      "dias_entre_toques": 3,
+      "plantilla_inicial": "Hola {lead_nombre}, soy {cliente_nombre} de {cliente_negocio}. Tu control esta proximo. Agendamos?"
+    },
+    {
+      "nicho": "gimnasio",
+      "nombre": "Gimnasios",
+      "grafo": "gimnasio_reactivacion_v1",
+      "umbral_dias": 30,
+      "canal": "whatsapp_app",
+      "toques": 2,
+      "dias_entre_toques": 4,
+      "plantilla_inicial": "Hola {lead_nombre}! Te extrañamos en {cliente_negocio}. Tu proximo entrenamiento te espera. Vamos?"
+    },
+    {
+      "nicho": "fisioterapia",
+      "nombre": "Fisioterapia",
+      "grafo": "fisioterapia_reactivacion_v1",
+      "umbral_dias": 14,
+      "canal": "whatsapp_app",
+      "toques": 2,
+      "dias_entre_toques": 5,
+      "plantilla_inicial": "Hola {lead_nombre}, soy {cliente_nombre} de {cliente_negocio}. ¿Cómo va tu recuperación? Completemos las sesiones de tu plan."
+    },
+    {
+      "nicho": "peluqueria",
+      "nombre": "Peluquería",
+      "grafo": "peluqueria_reactivacion_v1",
+      "umbral_dias": 28,
+      "canal": "whatsapp_app",
+      "toques": 2,
+      "dias_entre_toques": 5,
+      "plantilla_inicial": "Hola {lead_nombre}! Soy {cliente_nombre} de {cliente_negocio}. Tu proximo corte ya toca, ¿te reservo?"
+    },
+    {
+      "nicho": "veterinaria",
+      "nombre": "Veterinaria",
+      "grafo": "veterinaria_reactivacion_v1",
+      "umbral_dias": 300,
+      "canal": "whatsapp_app",
+      "toques": 2,
+      "dias_entre_toques": 7,
+      "plantilla_inicial": "Hola {lead_nombre}, soy {cliente_nombre} de {cliente_negocio}. La vacuna anual de tu mascota esta por vencer. ¿Agendamos la cita?"
+    },
+    {
+      "nicho": "agrovet",
+      "nombre": "Agro-Vet",
+      "grafo": "agrovet_reactivacion_v1",
+      "umbral_dias": 90,
+      "canal": "whatsapp_app",
+      "toques": 2,
+      "dias_entre_toques": 7,
+      "plantilla_inicial": "Hola {lead_nombre}, soy {cliente_nombre} de {cliente_negocio}. Es momento del ciclo de desparasitacion. ¿Preparamos tu pedido?"
+    },
+    {
+      "nicho": "hotel",
+      "nombre": "Hoteles",
+      "grafo": "hotel_remarketing_v1",
+      "umbral_dias": 180,
+      "canal": "whatsapp_app",
+      "toques": 2,
+      "dias_entre_toques": 10,
+      "plantilla_inicial": "Hola {lead_nombre}, soy {cliente_nombre} de {cliente_negocio}. Se acerca la temporada y queremos verte de vuelta. Tarifas preferenciales para huespedes que repiten."
+    },
+    {
+      "nicho": "bicicleteria",
+      "nombre": "Bicicleterías",
+      "grafo": "bicicleteria_mantenimiento_v1",
+      "umbral_dias": 60,
+      "canal": "whatsapp_app",
+      "toques": 2,
+      "dias_entre_toques": 7,
+      "plantilla_inicial": "Hola {lead_nombre}, soy {cliente_nombre} de {cliente_negocio}. Tu bici merece un check-up despues de tantas salidas. ¿Te la reviso?"
+    }
+  ]
+}

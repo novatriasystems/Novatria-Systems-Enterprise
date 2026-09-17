@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Terminal as TerminalIcon } from "lucide-react";
 import { Header } from "../components/sections/Header";
 import { HeroSection } from "../components/sections/HeroSection";
+import { NicheProducts } from "../components/sections/NicheProducts";
 import { DoctrineValues } from "../components/sections/DoctrineValues";
 import { RiskTelemetry } from "../components/sections/RiskTelemetry";
 import { ServicesMatrix } from "../components/sections/ServicesMatrix";
@@ -33,6 +34,9 @@ function NovatriaEnterprisePage() {
           onEvaluar={() => setIsAssessmentOpen(true)}
           onOpenTerminal={() => setIsTerminalOpen(true)}
         />
+
+        {/* Linea 1 — Niche Products (manifiesto kernel, WP3b) */}
+        <NicheProducts onEvaluar={() => setIsAssessmentOpen(true)} />
 
         {/* Engineering Doctrine */}
         <DoctrineValues />

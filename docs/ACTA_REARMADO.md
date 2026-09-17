@@ -77,3 +77,24 @@
   generados. Gate v2 aplicado: 0 coincidencias excluyendo *.gen.ts.
 - Regla nueva GD-1: gates que auditan codigo declaran sus exclusiones de generados en
   el propio comando, jamas implicitas.
+
+## WP3b — LINEA DE NICHOS (CIERRE) — 18-sep
+- yaml ^2 (2.9.1). scripts/build-nichos-index.mjs (ESM puro): lee los 8 yaml del kernel
+  via NICHOS_SOURCE_DIR (UNC WSL), emite nichos.index.json con nicho/nombre/grafo/
+  umbral_dias/canal/toques/dias_entre_toques/plantilla_inicial. Escalera determinista
+  (regen -> warning conservando commiteado -> fallo). prebuild anadido al build.
+- Manifiesto verificado contra yaml fuente: 8 nichos, umbrales 14-300d, WhatsApp, 2 toques.
+- HALLAZGO ND-1: formula de toques contaba esperas (+1) en vez de nodos mensaje; atrapado
+  por contraste con tabla predictiva. Regla: builders de datos de negocio llevan tabla de
+  contraste previa; el output se contrasta linea a linea antes de consumir.
+- NicheProducts.tsx: grid de 8 tarjetas 100% manifiesto (cero texto de nicho hardcodeado).
+  Precio de vitrina Linea 1 (desde $150.000 COP/mes) como constante con referencia SDD 2 —
+  el kernel no declara precios por nicho (hallazgo documental: los campos que el SDD v1.0.0
+  asumia en el manifiesto no existen en el kernel; el portal no inventa datos).
+- index.tsx reescrito con NicheProducts tras Hero; Header con ancla #productos.
+- closer.ts SYSTEM_PROMPT v2: linea de 8 productos, CES acotado, guardrail clinico.
+- HALLAZGO CF-1: artefacto CJK (ni los追问) llego a disco porque el control era edicion
+  manual delegada. Regla nueva: defectos conocidos en un bloque DETIENEN la emision del
+  bloque, jamas se delegan a edicion manual. Corregido + guard CJK permanente en gates.
+- Incidencias de proceso: builder ESM con require (corregido a import); backtick-n en
+  package.json (segunda vez — regla: configs solo reescritura completa).
