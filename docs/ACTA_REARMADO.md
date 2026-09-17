@@ -145,3 +145,13 @@
 - Favicon: __root apuntaba a /favicon.ico inexistente; corregido a /favicon.svg real.
 - Falso positivo descartado: bloqueo de fuente de extension Perplexity por la CSP es la
   restriccion (4) funcionando, no un defecto.
+
+## DECISION DEL INGENIERO — PRECIOS FUERA HASTA ESTUDIO DE MERCADO — 18-sep
+- Override del DEFAULT de SDD Seccion 7: los montos (desde $150.000 COP/mes, fee
+  $200.000) salen de la vitrina de nichos Y del SYSTEM_PROMPT del closer.
+- NicheProducts: linea de precio -> "Piloto de implementacion: 3 meses" (estructura
+  sin montos). closer: el agente NUNCA cita cifras; precio se calibra en el
+  diagnostico gratuito. Evidencia CES ($14.9M de perdidas en la clinica estudiada)
+  SE CONSERVA: es dato de tercero, no precio propio.
+- Reversal: cuando el estudio de mercado este listo, reintroducir precios en vitrina
+  + prompt del closer (2 puntos de cambio identificados).

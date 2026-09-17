@@ -7,9 +7,9 @@ import nichosIndex from "../../../nichos.index.json";
 /**
  * Vitrina de la Linea 1 — datos 100% del manifiesto generado (kernel Talos).
  * Cero texto hardcodeado de nichos (SDD 4c). Precio de vitrina de la Linea 1
- * fijado en SDD Seccion 2 (unico para los 8 — el kernel no declara precios).
+ * retirado por decision del Ingeniero (estudio de mercado pendiente — ver acta).
  */
-const PRECIO_VITRINA = "desde $150.000 COP/mes";
+
 
 interface NicheProductsProps {
   onEvaluar: () => void;
@@ -59,7 +59,7 @@ export function NicheProducts({ onEvaluar }: NicheProductsProps) {
                 </ul>
               </div>
               <div className="mt-5 border-t border-white/[0.06] pt-4">
-                <div className="font-mono text-[11px] text-zinc-300">{PRECIO_VITRINA}</div>
+                <div className="font-mono text-[11px] text-zinc-300">Piloto de implementación: 3 meses</div>
                 <Button onClick={onEvaluar} variant="outline" size="sm" className="mt-3 w-full">
                   Diagnóstico gratuito
                   <ArrowRight className="h-3 w-3" />
