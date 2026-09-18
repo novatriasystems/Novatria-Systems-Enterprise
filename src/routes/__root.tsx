@@ -9,6 +9,7 @@ import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { ScrollProgressBar } from "../components/ui/ScrollProgressBar";
+import { RevealOnScroll } from "../components/ui/RevealOnScroll";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -36,6 +37,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body className="min-h-screen bg-zinc-950 text-zinc-50 antialiased">
         <ScrollProgressBar />
+        <RevealOnScroll />
         {children}
         <Scripts />
       </body>

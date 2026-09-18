@@ -36,10 +36,10 @@ export function BridgeSteps() {
   ];
 
   return (
-    <section id="puente" className="relative border-b border-white/[0.08] bg-zinc-950 py-20 md:py-28">
+    <section id="puente" className="relative border-b border-white/[0.08] bg-zinc-950 py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto">
+        <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-950/40 px-3.5 py-1 text-xs font-mono text-cyan-300 mb-3">
             <span>DE LA FIRMA DEL PILOTO A LA PRIMERA CITA RECUPERADA...</span>
           </div>

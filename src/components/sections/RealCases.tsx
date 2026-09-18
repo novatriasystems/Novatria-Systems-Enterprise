@@ -26,7 +26,7 @@ export function RealCases() {
   ];
 
   return (
-    <section id="casos" className="relative border-b border-white/[0.08] bg-zinc-950 py-20 md:py-28">
+    <section id="casos" className="relative border-b border-white/[0.08] bg-zinc-950 py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
@@ -44,7 +44,7 @@ export function RealCases() {
           {cases.map((c, i) => (
             <div
               key={i}
-              className="flex flex-col justify-between rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 sm:p-7 backdrop-blur-sm transition-all hover:border-zinc-700 hover:bg-zinc-900/80"
+              className="flex flex-col justify-between rounded-xl border-specular-cobalt bg-zinc-900/50 p-6 sm:p-7 card-lift backdrop-blur-sm transition-all hover:border-zinc-700 hover:bg-zinc-900/80"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 border-b border-white/[0.06] pb-4">

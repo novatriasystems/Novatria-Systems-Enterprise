@@ -9,7 +9,7 @@ export function Card({ className, hoverEffect = true, children, ...props }: Card
   return (
     <div
       className={cn(
-        "relative rounded-sm bg-zinc-950/70 p-6 backdrop-blur-md specular-card transition-all duration-200",
+        "relative rounded-sm bg-zinc-950/70 p-6 backdrop-blur-md specular-card card-lift",
         hoverEffect && "hover:border-zinc-700/60 hover:bg-zinc-900/40 hover:shadow-lg hover:shadow-black/40",
         className
       )}

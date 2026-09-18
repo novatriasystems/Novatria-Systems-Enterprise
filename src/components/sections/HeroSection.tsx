@@ -30,7 +30,7 @@ export function HeroSection({ onEvaluar }: HeroSectionProps) {
           <br />
           trabaja en su propio computador.
           <br />
-          <span className="bg-gradient-to-r from-indigo-200 via-indigo-300 to-indigo-400 bg-clip-text text-transparent">
+          <span className="hero-gradient-pan bg-gradient-to-r from-indigo-200 via-indigo-300 to-indigo-400 bg-clip-text text-transparent">
             Sin fugas de datos. Sin facturas por consumo.
           </span>
         </h1>

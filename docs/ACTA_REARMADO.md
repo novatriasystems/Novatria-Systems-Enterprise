@@ -352,3 +352,11 @@
   "algoritmos criptograficos ni protocolos internos", cobertura igual o mayor).
 - REGLA GD-2: terminos erradicados viven como PATRON global en el gate; toda tanda
   ejecuta el gate completo pre-commit. Las purgas por-frase dejan residuos.
+
+## WP10-FASE B FIX — VARIABLE MUERTA EN RevealOnScroll — 20-sep
+- Gate atrapo: const hero declarada y jamas usada (enfoque de exclusion descartado
+  a mitad de diseno, residuo quedo en el archivo). Eliminada. El slice(1) de sections
+  ya excluye el hero correctamente.
+- Registro: patron recurrente del Arquitecto en esta mision — residuos de pensamiento
+  descartado que quedan en el codigo. Los gates lo atrapan siempre; la disciplina es
+  no emitir codigo con residuos de diseno.

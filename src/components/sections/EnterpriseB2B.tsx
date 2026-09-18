@@ -37,7 +37,7 @@ export function EnterpriseB2B() {
         {/* Two Columns: Puerta 1 & Puerta 2 */}
         <div className="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Column A: Para Empresas */}
-          <div className="flex flex-col justify-between rounded-2xl border border-zinc-800 bg-zinc-900/60 p-7 sm:p-8 backdrop-blur-md">
+          <div className="flex flex-col justify-between rounded-2xl border-specular-cobalt bg-zinc-900/60 p-7 sm:p-8 card-lift backdrop-blur-md">
             <div>
               <div className="flex items-center gap-2.5">
                 <span className="h-2 w-2 rounded-full bg-blue-400" />
@@ -77,7 +77,7 @@ export function EnterpriseB2B() {
           </div>
 
           {/* Column B: Para Proveedores */}
-          <div className="flex flex-col justify-between rounded-2xl border border-zinc-800 bg-zinc-900/60 p-7 sm:p-8 backdrop-blur-md">
+          <div className="flex flex-col justify-between rounded-2xl border-specular-cobalt bg-zinc-900/60 p-7 sm:p-8 card-lift backdrop-blur-md">
             <div>
               <div className="flex items-center gap-2.5">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />

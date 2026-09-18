@@ -23,7 +23,7 @@ export function EvidenceCES() {
             <p className="mt-6 text-base sm:text-lg leading-relaxed text-zinc-300">
               El estudio de la <strong className="text-white font-semibold">Universidad CES</strong> midió las
               inasistencias odontológicas de una clínica real:{" "}
-              <strong className="text-rose-300 font-semibold">$14.955.492 COP perdidos cada mes</strong>, y la
+              <strong className="text-rose-300 font-semibold tabular-critical">$14.955.492 COP perdidos cada mes</strong>, y la
               causa número uno no fue el dinero ni el miedo — fue{" "}
               <span className="text-amber-300 font-semibold underline decoration-amber-400/40 underline-offset-4">
                 el olvido (28%)
