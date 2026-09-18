@@ -210,3 +210,21 @@
 - REGLA REFORCADA: tras una Exception, el UNICO comando valido es reportar el error
   al canal. La linea de exito jamas se copia — es literal, no veredicto.
 - state: WP6 CERRADO de verdad. Pendiente unica: verificacion visual del Ingeniero.
+
+## NARRATIVA v2.1 — TANDA 1: HERO SOBERANO + HEADER NUEVO — 19-sep
+- Hero reescrito al copy aprobado por el Ingeniero (etiqueta local, titular soberano,
+  dual CTA, 3 tarjetas de garantia). Props simplificadas a onEvaluar; CTA secundario
+  es ancla a #talos.
+- Header nuevo: nav de la imagen aprobada (Talos Agente / Para Empresas / Seguridad &
+  Privacidad / FAQ / Ver funcionamiento) + tagline "IA Soberana para Negocios" + CTA
+  pill "Solicitar Demo / Auditoria". Drawer mobile incluido.
+- Anclas: #talos y #seguridad insertadas. HALLAZGO T1-1: mi insercion ciega duplico
+  ids existentes (solucion/empresas) que la sonda no detecto — leccion: sondas de
+  atributos JSX deben inspeccionar el tag completo, no buscar strings. Corregido
+  eliminando los ids viejos (el nav aprobado apunta a los nuevos).
+- HALLAZGO T1-2: props huerfanas (onOpenCloser/onOpenTerminal) del desajuste
+  header-viejo/index-nuevo — purgadas. El CloserTerminal sigue accesible via HUD
+  flotante (isTerminalOpen sigue en estado).
+- GATE ROJO intermedio: 4 errores TS atrapados antes de commit. Cero daño a origin.
+- Pendiente Tanda 2: reorden index.tsx + humanizacion de copys + limpia del prop
+  isTerminalOpen si el HUD es su unico consumidor vivo.

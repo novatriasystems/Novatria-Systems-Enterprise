@@ -31,14 +31,12 @@ function NovatriaEnterprisePage() {
       {/* Barra de Navegación (Header Superior) */}
       <Header
         onEvaluar={() => setIsAssessmentOpen(true)}
-        onOpenCloser={() => setIsTerminalOpen(true)}
       />
 
       <main>
         {/* Sección 1: Hero */}
         <HeroSection
           onEvaluar={() => setIsAssessmentOpen(true)}
-          onOpenTerminal={() => setIsTerminalOpen(true)}
         />
 
         {/* Sección 2: El Espejo (Escenas) */}

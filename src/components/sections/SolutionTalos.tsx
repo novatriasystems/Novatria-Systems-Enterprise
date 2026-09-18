@@ -29,7 +29,7 @@ export function SolutionTalos() {
   ];
 
   return (
-    <section id="solucion" className="relative border-b border-white/[0.08] bg-zinc-950 py-20 md:py-28">
+    <section id="talos" className="relative border-b border-white/[0.08] bg-zinc-950 py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <div className="max-w-3xl">

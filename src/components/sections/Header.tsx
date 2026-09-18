@@ -1,111 +1,59 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import { Badge } from "../ui/Badge";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { Button } from "../ui/Button";
 
 interface HeaderProps {
   onEvaluar: () => void;
-  onOpenCloser?: () => void;
 }
 
-export function Header({ onEvaluar, onOpenCloser }: HeaderProps) {
+const NAV = [
+  { href: "#talos", label: "Talos (Agente)" },
+  { href: "#empresas", label: "Para Empresas" },
+  { href: "#seguridad", label: "Seguridad & Privacidad" },
+  { href: "#faq", label: "Preguntas Frecuentes" },
+  { href: "#prueba-viva", label: "Ver funcionamiento" },
+];
+
+export function Header({ onEvaluar }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-zinc-950/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-zinc-950/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
         {/* Brand */}
-        <div className="flex items-center gap-3.5">
+        <a href="#" className="flex items-center gap-3">
           <img src="/logo.png" alt="Novatria Systems" className="h-8 w-auto select-none" />
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-sans text-sm font-bold uppercase tracking-tight text-zinc-100">
-                Novatria Systems
-              </span>
-              <span className="hidden font-mono text-[9px] uppercase tracking-widest text-zinc-400 md:inline">
-              </span>
-            </div>
-            <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-zinc-400">
-              Novatria Systems
+          <div className="leading-tight">
+            <div className="font-sans text-sm font-bold text-zinc-100">Novatria Systems</div>
+            <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-500">
+              IA Soberana para Negocios
             </div>
           </div>
-        </div>
+        </a>
 
-        {/* Desktop Navigation */}
+        {/* Desktop nav */}
         <nav className="hidden items-center gap-7 lg:flex">
-          <a
-            href="#evidencia"
-            className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-zinc-100"
-          >
-            Investigación Global
-          </a>
-          <a
-            href="#prueba-viva"
-            className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-zinc-100"
-          >
-            Demostración en Vivo
-          </a>
-          <a
-            href="#laboratorio"
-            className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-zinc-100"
-          >
-            Demo Funcional
-          </a>
-          <a
-            href="#faq"
-            className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-zinc-100"
-          >
-            Preguntas Frecuentes
-          </a>
-          <a
-            href="#empresas"
-            className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-zinc-100"
-          >
-            Empresas & Proveedores
-          </a>
+          {NAV.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="font-sans text-[13px] font-medium text-zinc-400 transition-colors hover:text-zinc-100"
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
-        {/* Actions & Status */}
-        <div className="hidden items-center gap-4 sm:flex">
-          <Badge variant="emerald" pulse className="inline-flex font-mono text-[11px] tracking-wider">
-            Status: Active
-          </Badge>
-          {onOpenCloser && (
-            <button
-              onClick={onOpenCloser}
-              className="font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-blue-400"
-              title="Abrir terminal HUD"
-            >
-              [HUD Terminal]
-            </button>
-          )}
-          <Button
-            onClick={() => {
-              const el = document.getElementById("diagnostico");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-              else onEvaluar();
-            }}
-            size="sm"
-            variant="primary"
-          >
-            Diagnóstico Gratuito →
+        {/* CTA principal */}
+        <div className="hidden md:block">
+          <Button onClick={onEvaluar} size="sm" variant="primary" className="rounded-full">
+            Solicitar Demo / Auditoría
+            <ArrowRight className="h-3 w-3" />
           </Button>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <div className="flex items-center gap-2 lg:hidden">
-          <Button
-            onClick={() => {
-              const el = document.getElementById("diagnostico");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-              else onEvaluar();
-            }}
-            size="sm"
-            variant="primary"
-            className="text-[10px] px-2.5 py-1"
-          >
-            Diagnóstico
-          </Button>
+        {/* Mobile toggle */}
+        <div className="lg:hidden">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-1.5 text-zinc-400 hover:text-white"
@@ -116,56 +64,24 @@ export function Header({ onEvaluar, onOpenCloser }: HeaderProps) {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile drawer */}
       {mobileMenuOpen && (
         <div className="border-b border-zinc-800 bg-zinc-950 px-6 py-6 lg:hidden">
           <nav className="flex flex-col gap-4">
-            <a
-              href="#evidencia"
-              onClick={() => setMobileMenuOpen(false)}
-              className="font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 hover:text-blue-400"
-            >
-              // Investigación Global
-            </a>
-            <a
-              href="#prueba-viva"
-              onClick={() => setMobileMenuOpen(false)}
-              className="font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 hover:text-blue-400"
-            >
-              // Demostración en Vivo
-            </a>
-            <a
-              href="#laboratorio"
-              onClick={() => setMobileMenuOpen(false)}
-              className="font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 hover:text-blue-400"
-            >
-              // Demo Funcional
-            </a>
-            <a
-              href="#faq"
-              onClick={() => setMobileMenuOpen(false)}
-              className="font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 hover:text-blue-400"
-            >
-              // Preguntas Frecuentes
-            </a>
-            <a
-              href="#empresas"
-              onClick={() => setMobileMenuOpen(false)}
-              className="font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 hover:text-blue-400"
-            >
-              // Empresas & Proveedores
-            </a>
-            {onOpenCloser && (
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenCloser();
-                }}
-                className="text-left font-mono text-xs uppercase tracking-[0.18em] text-blue-400 hover:underline"
+            {NAV.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="font-sans text-sm font-medium text-zinc-300 hover:text-blue-400"
               >
-                // Abrir Terminal Closer
-              </button>
-            )}
+                {item.label}
+              </a>
+            ))}
+            <Button onClick={() => { setMobileMenuOpen(false); onEvaluar(); }} size="sm" variant="primary" className="mt-2 w-full">
+              Solicitar Demo / Auditoría
+              <ArrowRight className="h-3 w-3" />
+            </Button>
           </nav>
         </div>
       )}
