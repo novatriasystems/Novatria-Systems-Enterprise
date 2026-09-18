@@ -1,6 +1,5 @@
-import { MessageSquare, FileLock, Building2, Bot } from "lucide-react";
+import { MessageSquare, FileLock, Building2 } from "lucide-react";
 import { Badge } from "../ui/Badge";
-import nichosIndex from "../../../nichos.index.json";
 
 const BENEFITS = [
   {
@@ -55,51 +54,27 @@ export function SolutionTalos() {
           ))}
         </div>
 
-        {/* Su negocio. Su Talos. */}
-        <div className="mt-16">
-          <Badge variant="emerald" className="mb-4">
-            TALOS SE ADAPTA A SU TIPO DE NEGOCIO
-          </Badge>
-          <h3 className="font-sans text-2xl font-bold tracking-tight text-zinc-100">
-            Su negocio. Su Talos.
-          </h3>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {nichosIndex.nichos.map((n) => (
-              <span
-                key={n.nicho}
-                className="rounded-sm border border-white/[0.10] bg-zinc-900/60 px-3.5 py-2 font-mono text-xs text-zinc-300"
-              >
-                Talos {n.nombre}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Escalera hardware — honesta y por niveles */}
+        {/* Puente hacia el explorador de verticales (NicheProducts, montado debajo) */}
         <div className="mt-14 rounded-lg border border-white/[0.10] bg-zinc-900/40 p-6">
-          <div className="flex items-center gap-2.5">
-            <Bot className="h-5 w-5 text-blue-400" />
-            <h3 className="font-sans text-sm font-bold uppercase tracking-wide text-zinc-100">
-              ¿Qué equipo necesita?
-            </h3>
-          </div>
-          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div>
-              <div className="font-mono text-[11px] uppercase tracking-wider text-blue-400">Nivel 1 — El Arnés</div>
-              <p className="mt-1.5 text-xs leading-relaxed text-zinc-400">
-                Talos corre en un computador ordinario de su negocio. Sin servidores caros
-                para empezar.
-              </p>
-            </div>
-            <div>
-              <div className="font-mono text-[11px] uppercase tracking-wider text-emerald-400">Nivel 2 — Privacidad total con criterio</div>
-              <p className="mt-1.5 text-xs leading-relaxed text-zinc-400">
-                ¿Quiere que TODO — la inteligencia incluida — viva dentro de su empresa?
-                Le dimensionamos el servidor apropiado: la diferencia entre un asistente
-                básico y uno con el criterio de un modelo completo.
-              </p>
-            </div>
-          </div>
+          <h3 className="font-sans text-base font-bold text-zinc-100">
+            ¿Y qué equipo necesita para tenerlo funcionando?
+          </h3>
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-zinc-400">
+            Empezar es más simple de lo que parece: <strong className="text-zinc-200">Talos corre en un
+            computador ordinario de su negocio</strong> — el mismo que ya tiene encendido. Sin
+            servidores caros para comenzar.
+          </p>
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-zinc-400">
+            ¿Quiere llevarlo al máximo nivel — que <strong className="text-zinc-200">toda la inteligencia</strong> viva
+            dentro de su empresa y jamás dependa de nadie? Ahí sí entramos a dimensionar
+            un servidor a la medida: es la diferencia entre un asistente básico y uno con
+            el criterio completo de un modelo profesional. Esa decisión la tomamos juntos
+            en el diagnóstico — según su volumen, su operación y qué tan lejos quiere
+            llegar.{" "}
+            <span className="font-mono text-xs text-zinc-500">
+              (Explore sus verticales más abajo ↓)
+            </span>
+          </p>
         </div>
 
       </div>

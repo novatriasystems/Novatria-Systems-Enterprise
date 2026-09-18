@@ -296,3 +296,16 @@
   onEvaluar que el nuevo NicheProducts ya no acepta (su conversion vive en S11).
   Mismo patron de T1-2: reescribir un componente exige auditar sus consumidores en
   la misma tanda. Corregido: import limpio, <NicheProducts /> sin props.
+
+## WP8 FIX-2 — DUPLICACION ELIMINADA + ESCALERA CON INTENCION — 20-sep
+- HALLAZGO del Ingeniero: header viejo ("Su negocio. Su Talos." + chips estaticos +
+  escalera) quedo DUPLICADO dentro de SolutionTalos mientras el panel nuevo vivia
+  mas abajo — huera y redundante. Causa: al escribir SolutionTalos v2.2 inclui la
+  zona que horas despues se convirtio en componente propio; no la retire al montar
+  el panel. Correccion: SolutionTalos conserva identidad (JARVIS + beneficios) y
+  cede la zona completa al panel; la escalera se MIGRA al panel como bloque final
+  con contexto por vertical ("¿que equipo necesita para esto en su odontologia?")
+  — antes eran dos tarjetas flotantes sin historia, ahora responden la pregunta
+  inmediata del visitante tras ver su vertical.
+- Puente nuevo en SolutionTalos: la escalera queda mencionada con intencion y
+  apunta al explorador de abajo — flujo continuo, cero repeticion.
