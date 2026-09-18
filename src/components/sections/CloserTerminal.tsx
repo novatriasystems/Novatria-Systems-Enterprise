@@ -106,7 +106,7 @@ export function CloserTerminal({ isOpen, onClose }: CloserTerminalProps) {
         const next = [...prev];
         next[assistantIndex] = {
           role: "assistant",
-          content: `[AVISO DE ENCLAVE]: El enclave de inferencia no está disponible en este momento (/api/closer: ${errorMessage}). Nuestro agente de cierre opera con IA local: inténtalo más tarde o solicita atención directa por el formulario de diagnóstico.`,
+          content: `[AVISO]: El asistente no está disponible en este momento (/api/closer: ${errorMessage}). Nuestro agente de cierre opera con IA local: inténtalo más tarde o solicita atención directa por el formulario de diagnóstico.`,
         };
         return next;
       });

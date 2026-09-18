@@ -52,6 +52,9 @@ export function BridgeSteps() {
         </div>
 
         {/* 4 Steps Grid */}
+                {/* Conector de flujo — gradiente cobalt-to-emerald entre los 4 pasos */}
+        <div aria-hidden="true" className="relative mx-auto mb-[-28px] hidden h-px max-w-3xl bg-gradient-to-r from-transparent via-blue-500/60 to-transparent lg:block" />
+
         <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step) => {
             const Icon = step.icon;

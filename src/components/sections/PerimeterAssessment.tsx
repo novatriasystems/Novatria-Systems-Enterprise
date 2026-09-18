@@ -127,7 +127,7 @@ export function PerimeterAssessment({ isOpen, onClose }: PerimeterAssessmentProp
                       {[
                         { id: "public_cloud", label: "APIs de Nube Pública Directas (OpenAI / Anthropic / AWS)" },
                         { id: "hybrid", label: "Arquitectura Híbrida con VPN / Proxy Intermedio" },
-                        { id: "on_prem", label: "Hardware Local / Servidores Privados (Enclave Soberano)" },
+                        { id: "on_prem", label: "Hardware local / servidores propios (IA dentro de su empresa)" },
                       ].map((item) => (
                         <label
                           key={item.id}

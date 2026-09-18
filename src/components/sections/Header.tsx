@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { Button } from "../ui/Button";
 
@@ -16,9 +16,18 @@ const NAV = [
 
 export function Header({ onEvaluar }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-zinc-950/85 backdrop-blur-md">
+    <header className={`sticky top-0 z-40 border-b transition-all duration-300 ${scrolled ? "border-white/[0.12] bg-zinc-950/95 backdrop-blur-xl shadow-[0_1px_0_0_rgba(255,255,255,0.08)]" : "border-transparent bg-zinc-950/40 backdrop-blur-sm"}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
         {/* Brand */}
         <a href="#" className="flex items-center gap-3">

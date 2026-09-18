@@ -194,3 +194,53 @@
   font-style: normal;
   font-display: swap;
 }
+/* ============================================================
+   WP10 — FUNDAMENTOS AWWWARDS (keyframes + utilities + fluid)
+   ============================================================ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes gradient-pan {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes terminal-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@utility glow-cobalt {
+  box-shadow: 0 0 40px -10px rgba(37, 99, 235, 0.35);
+}
+@utility glow-emerald {
+  box-shadow: 0 0 40px -10px rgba(5, 150, 105, 0.3);
+}
+@utility card-lift {
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.5);
+  }
+}
+@utility border-specular-cobalt {
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-top-color: rgba(37, 99, 235, 0.45);
+}
+
+/* Fluid type scale — los h1/h2 fluyen sin saltos entre breakpoints */
+h1 { font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem); }
+h2 { font-size: clamp(1.875rem, 3vw + 0.75rem, 3rem); }
+
+/* Accesibilidad: respeta la preferencia del sistema */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

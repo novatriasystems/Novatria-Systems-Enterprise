@@ -108,7 +108,7 @@ export const Route = createFileRoute("/api/contact")({
             reference,
             timestamp,
             score,
-            message: "Evaluación perimetral registrada en el enclave confidencial de Novatria.",
+            message: "Diagnóstico registrado. Un especialista de Novatria lo contactará.",
           }),
           { status: 201, headers: { "Content-Type": "application/json" } }
         );

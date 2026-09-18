@@ -85,7 +85,7 @@ export function ServicesMatrix({ onEvaluar }: ServicesMatrixProps) {
       }
       setError("Checkout no disponible temporalmente.");
     } catch {
-      setError("Error de conexión con el enclave de pagos.");
+      setError("Error de conexión con el sistema de pagos.");
     } finally {
       setBuying(null);
     }

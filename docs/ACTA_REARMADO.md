@@ -326,3 +326,20 @@
   unificar timbre de voz (3 micro-tonos coexisten) — RECOMENDACION: probar con
   prospecto real ANTES de invertir en pulido.
 - Guard permanente ampliado: SGN + ED25519 + AIR-GAPPED + enclave en un solo gate.
+
+## WP10 FASE A — FIX JERGA RESIDUAL (9 INSTANCIAS PURGADAS) — 20-sep
+- El guard ampliado atrapo 9 residuos de "enclave/Ed25519" que la purga por-frase
+  de WP6/WP4 no cubrio. Desglose:
+  * 3 en RiskTelemetry.tsx — componente DESMONTADO: RETIRADO del arbol junto a
+    DoctrineValues.tsx (ambos muertos por v2.1, recuperables del historial git).
+  * 2 de MI copy de WP4/checkout (CloserTerminal error + ServicesMatrix error).
+  * 1 del modal (opcion on_prem), 1 de contact.ts (mensaje de exito), 1 del 404
+    (mi propio fix WP6).
+  * 1 falso positivo constructivo: Ed25519 en SYSTEM_PROMPT aparecia dentro de una
+    PROHIBICION (no citar specs). Reformulado a "algoritmos criptograficos ni
+    protocolos internos" — cobertura igual o mayor, gate verde.
+- LECCION GD-2: las purgas por-frase dejan residuos; cada termino erradicado vive
+  como PATRON global en el gate, y toda tanda ejecuta el gate completo pre-commit.
+- Fase A (6 tareas) + purga: tsc/build/any/CJK/jerga/%/V-3 — 8/8 verdes.
+- Pendiente Fase B (tras revision visual del Ingeniero): bento Espejo, diagrama
+  Talos simplificado, bento storefront, widgets de footer WP9.

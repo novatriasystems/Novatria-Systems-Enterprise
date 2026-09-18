@@ -117,7 +117,7 @@ export function LocalFirstLab() {
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/[0.06]">
             <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
               <ShieldCheck className="h-4 w-4 text-emerald-400" />
-              <span>Procesado 100% en el motor V8 local de su equipo. Cero bytes salientes.</span>
+              <span>Procesado 100% en el motor V8 local de su equipo. Cero bytes salientes. [CERTIFICADO: ZERO-EGRESS | RAM ONLY]</span>
             </div>
             <Button
               onClick={runSanitization}
