@@ -228,3 +228,21 @@
 - GATE ROJO intermedio: 4 errores TS atrapados antes de commit. Cero daño a origin.
 - Pendiente Tanda 2: reorden index.tsx + humanizacion de copys + limpia del prop
   isTerminalOpen si el HUD es su unico consumidor vivo.
+
+## NARRATIVA v2.1 — TANDA 2: HUMANIZACION + STOREFRONT REINTEGRADO — 19-sep
+- Humanizacion aplicada (U1): HUD flotante "CLOSER HUD" -> "Habla con nuestro
+  asistente"; mensaje inicial del CloserTerminal en lenguaje humano; Footer
+  "JURISDICCION: HARDWARE ON-PREM // ZERO-EGRESS" -> "PROCESAMIENTO 100% LOCAL ·
+  CERO TELEMETRIA"; badge de nichos "// LINEA 1" -> "TALOS SE ADAPTA A SU TIPO DE
+  NEGOCIO". Los "//" metrics de consultoria se CONSERVAN (audiencia CTO).
+- HALLAZGO ND-5 (el mas grave del ensamblaje Antigravity): ServicesMatrix — la
+  UNICA puerta de compra de las 4 ofertas (checkout Stripe, WP4/E-3) — quedo
+  DESMONTADA de la pagina. Sin el, la restriccion (10) no tenia entrada en UI.
+  REINTEGRADO tras <EnterpriseB2B /> (posicionamiento dual -> venta ejecutiva).
+- DECISION: la pregunta "¿Cuantos clientes dejaron de venir?" NO se duplica en el
+  Espejo (su titulo ya cumple la funcion emocional); queda retirada del flujo —
+  el hero soberano abre con autoridad y el espejo agita con la escena.
+- Orden final de montaje verificado: 16 componentes presentes (13 secciones +
+  modal + closer + footer).
+- Pendiente unica del rearmado: verificacion visual del Ingeniero (criterio:
+  pedagogia de ventas).

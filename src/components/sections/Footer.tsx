@@ -19,7 +19,7 @@ export function Footer() {
             </p>
             <div className="mt-4 flex items-center gap-2 font-mono text-[10px] text-zinc-400">
               <Lock className="h-3 w-3 text-emerald-400" />
-              <span>JURISDICCIÓN: HARDWARE ON-PREM // ZERO-EGRESS</span>
+              <span>PROCESAMIENTO 100% LOCAL · CERO TELEMETRÍA</span>
             </div>
           </div>
 

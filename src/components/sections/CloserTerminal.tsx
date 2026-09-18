@@ -16,7 +16,7 @@ export function CloserTerminal({ isOpen, onClose }: CloserTerminalProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "system",
-      content: "ENCLAVE TERMINAL INITIALIZED // AGENTE CLOSER_NOVATRIA ONLINE. Escriba su consulta de arquitectura o riesgo para iniciar el diagnóstico.",
+      content: "Hola. Soy el asistente de Novatria. Cuénteme qué tipo de negocio tiene y qué le está costando — le respondo al instante.",
     },
   ]);
   const [input, setInput] = useState("");
@@ -133,7 +133,7 @@ export function CloserTerminal({ isOpen, onClose }: CloserTerminalProps) {
             </div>
             <div>
               <span className="font-mono text-xs font-bold uppercase tracking-wider text-zinc-200">
-                CLOSER_NOVATRIA // HUD
+                ASISTENTE NOVATRIA
               </span>
               <span className="ml-2 font-mono text-[9px] text-emerald-400">
                 [LOCAL STREAMING]

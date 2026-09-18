@@ -21,7 +21,7 @@ export function NicheProducts({ onEvaluar }: NicheProductsProps) {
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-14 max-w-3xl">
           <Badge variant="cobalt" className="mb-4">
-            // LÍNEA 1 — TALOS PARA NEGOCIOS DE SERVICIO
+            TALOS SE ADAPTA A SU TIPO DE NEGOCIO
           </Badge>
           <h2 className="font-sans text-3xl font-extrabold tracking-tight text-zinc-100 md:text-4xl">
             Tus clientes no desaparecen. Solo dejan de venir.
