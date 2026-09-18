@@ -8,6 +8,13 @@ interface HeroSectionProps {
 export function HeroSection({ onEvaluar }: HeroSectionProps) {
   return (
     <section className="relative overflow-hidden bg-zinc-950">
+      {/* IMAGEN TALOS — mimetizada con el fondo via blend-screen */}
+      <img
+        src="/talos-hero.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 right-0 h-full w-auto max-w-[45%] object-cover object-left mix-blend-screen opacity-90 select-none [mask-image:linear-gradient(to_right,transparent_0%,black_30%,black_100%)]"
+      />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-gradient-to-b from-blue-500/[0.07] to-transparent" />
 
       <div className="relative mx-auto max-w-5xl px-6 pt-24 pb-20 text-center">
