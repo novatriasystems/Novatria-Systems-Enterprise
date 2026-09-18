@@ -246,3 +246,13 @@
   modal + closer + footer).
 - Pendiente unica del rearmado: verificacion visual del Ingeniero (criterio:
   pedagogia de ventas).
+
+## NARRATIVA v2.1 — SECCION TALOS REESCRITA (CLARIDAD EMPRESARIAL) — 19-sep
+- Direccion del Ingeniero: "no esta claro que hace Talos por las empresas". La seccion
+  #talos reescrita completa: titular de beneficio (typo corregido), subtitulo de
+  mecanismo sin jerga ("no es un chatbot... sin depender de OpenAI o Anthropic"),
+  3 pilares de beneficio (WhatsApp sin friccion / registro auditable / datos en su
+  servidor) + bloque del ciclo autonomo.
+- Reformulaciones de honestidad conservadas: registro auditable (no "cero
+  alucinaciones"), datos en su servidor (no "expedientes clinicos").
+- Header y Hero: INTACTOS por orden del Ingeniero.
