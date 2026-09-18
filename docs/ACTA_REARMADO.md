@@ -276,3 +276,17 @@
   acotacion CES correcta ya presente en implementacion Antigravity; columna Proveedor
   conservada de v2.1.
 - Pendiente: verificacion visual del Ingeniero (criterio: pedagogia de ventas).
+
+## WP7-FIX — PRUEBA VIVA NATURAL (feedback Ingeniero) — 20-sep
+- Direccion del Ingeniero: los mockups sonaban a robot y contradecian la promesa
+  "tono exacto de su negocio". Causa: las plantillas del kernel son genericas con
+  placeholders, y el render las rellenaba con valores genericos ("su negocio").
+- Solucion: mensaje inicial sigue viniendo de la plantilla real del kernel (fuente
+  unica de verdad intacta) PERO personalizada con datos de demo verosimiles por
+  nicho (negocio/dueño/cliente). Respuestas del asistente ahora son variadas y
+  naturales por vertical — cada conversacion con personalidad propia.
+- Honestidad preservada: sello "Primer mensaje generado por Talos con la plantilla
+  de X" + "Conversacion de demostracion con datos ficticios".
+- Nota: plantillas del kernel con ortografia sin tilde (despues/desparasitacion) se
+  conservan tal cual — son la verdad del producto; su correccion es tarea del kernel,
+  no del portal (fuente unica de verdad).
