@@ -1,43 +1,76 @@
 import { useState } from "react";
-import { ArrowRight, CheckCircle2, Lock, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import { Button } from "../ui/Button";
+import { contactSchema } from "../../lib/schemas/contact.schema";
 
+/**
+ * S11 Conversion final — WP7. Persiste en /api/contact (mismo funnel del modal):
+ * SQLite con minimizacion Ley 1581 (solo dominio del email). Consentimiento
+ * OBLIGATORIO. Telefono eliminado del formulario: sin columna en BD, no se
+ * colecta lo que no se almacena (decision documentada en acta — reversible).
+ */
 export function DiagnosticFinal() {
-  const [formData, setFormData] = useState({
-    nameOrRole: "",
-    businessName: "",
-    email: "",
-    phone: "",
-  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [reference, setReference] = useState<string | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [consent, setConsent] = useState(false);
+  const [formData, setFormData] = useState({ nameOrRole: "", businessName: "", email: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSubmitted(true);
-    }, 800);
+    if (!consent) {
+      setServerError("Debes autorizar el tratamiento del dominio del correo para continuar.");
+      return;
+    }
+    const check = contactSchema.safeParse({
+      fullName: formData.nameOrRole,
+      company: formData.businessName,
+      workEmail: formData.email,
+    });
+    if (!check.success) {
+      setServerError(check.error.issues[0]?.message ?? "Revisa los campos");
+      return;
+    }
+    setIsSubmitting(true);
+    setServerError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(check.data),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.reference) setReference(data.reference);
+        setIsSubmitted(true);
+      } else {
+        setServerError("No pudimos registrar el diagnóstico. Intenta de nuevo.");
+      }
+    } catch {
+      setServerError("Error de conexión. Intenta de nuevo.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section id="diagnostico" className="relative border-b border-white/[0.08] bg-zinc-950 py-20 md:py-28">
       <div className="mx-auto max-w-4xl px-6">
-        {/* Header */}
         <div className="text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-950/40 px-3.5 py-1 text-xs font-mono text-blue-300 mb-3">
             <Sparkles className="h-3.5 w-3.5 text-blue-400" />
             <span>DIAGNÓSTICO GRATUITO DE CLIENTES PERDIDOS...</span>
           </div>
           <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            Calcule cuánto está perdiendo su negocio.
+            Descubra cuánto dinero está perdiendo por clientes no atendidos.
           </h2>
           <p className="mt-4 text-base sm:text-lg text-zinc-300 max-w-2xl mx-auto">
-            Ingrese los datos de su negocio para que un especialista prepare un informe con la estimación confidencial del volumen de clientes que Talos reactivaría durante su piloto.
+            Solicite su diagnóstico de recuperación de cartera sin costo y reciba un plan
+            de implementación para su empresa.
           </p>
         </div>
 
-        {/* Form Container */}
         <div className="mt-12 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 sm:p-10 backdrop-blur-md shadow-2xl">
           {isSubmitted ? (
             <div className="text-center py-10 space-y-4">
@@ -45,104 +78,94 @@ export function DiagnosticFinal() {
                 <CheckCircle2 className="h-8 w-8" />
               </div>
               <h3 className="font-sans text-2xl font-bold text-white">
-                Solicitud Recibida con Éxito
+                Diagnóstico registrado con éxito
               </h3>
+              {reference && (
+                <div className="inline-flex items-center gap-2 rounded-sm border border-emerald-500/30 bg-emerald-950/30 px-4 py-2 font-mono text-xs text-emerald-300">
+                  Referencia: <strong>{reference}</strong>
+                </div>
+              )}
               <p className="text-sm text-zinc-300 max-w-md mx-auto">
-                Un arquitecto de Talos preparará su diagnóstico de reactivación y lo contactará en el número <strong>{formData.phone || "indicado"}</strong>.
+                Un especialista preparará su diagnóstico de reactivación y lo contactará
+                en el correo indicado.
               </p>
               <button
-                onClick={() => {
-                  setIsSubmitted(false);
-                  setFormData({ nameOrRole: "", businessName: "", email: "", phone: "" });
-                }}
-                className="mt-4 text-xs font-mono text-blue-400 hover:underline"
+                onClick={() => { setIsSubmitted(false); setConsent(false); setFormData({ nameOrRole: "", businessName: "", email: "" }); }}
+                className="mt-2 text-xs font-mono text-blue-400 hover:underline"
               >
                 Enviar otra consulta →
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {/* Field 1: Name or Role */}
                 <div>
-                  <label className="block font-mono text-xs text-zinc-300 mb-2">
-                    Nombre o Cargo:
+                  <label className="block font-mono text-[10px] uppercase tracking-widest text-zinc-400 mb-1">
+                    Nombre y Cargo
                   </label>
                   <input
-                    type="text"
                     required
+                    type="text"
                     value={formData.nameOrRole}
                     onChange={(e) => setFormData({ ...formData, nameOrRole: e.target.value })}
-                    placeholder="Ej. Dr. Carlos / Dueño"
-                    className="w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors"
+                    placeholder="Dueño / Gerente / CTO"
+                    className="w-full rounded-sm border border-white/[0.08] bg-zinc-950 p-3 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-blue-500 focus:outline-none"
                   />
                 </div>
-
-                {/* Field 2: Business Name */}
                 <div>
-                  <label className="block font-mono text-xs text-zinc-300 mb-2">
-                    Nombre del Negocio:
+                  <label className="block font-mono text-[10px] uppercase tracking-widest text-zinc-400 mb-1">
+                    Nombre del Negocio
                   </label>
                   <input
-                    type="text"
                     required
+                    type="text"
                     value={formData.businessName}
                     onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
-                    placeholder="Ej. Clínica Dental Odonto"
-                    className="w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors"
-                  />
-                </div>
-
-                {/* Field 3: Email */}
-                <div>
-                  <label className="block font-mono text-xs text-zinc-300 mb-2">
-                    Email del Negocio:
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="ej.contacto@clinica.com"
-                    className="w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors"
-                  />
-                </div>
-
-                {/* Field 4: Phone */}
-                <div>
-                  <label className="block font-mono text-xs text-zinc-300 mb-2">
-                    Teléfono de Contacto:
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+57 300 000 000"
-                    className="w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors"
+                    placeholder="Su empresa o entidad"
+                    className="w-full rounded-sm border border-white/[0.08] bg-zinc-950 p-3 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-blue-500 focus:outline-none"
                   />
                 </div>
               </div>
 
-              {/* Submit CTA */}
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-500 px-8 py-4 text-base font-semibold text-white shadow-xl shadow-blue-600/25 transition-all active:scale-[0.99] disabled:opacity-70"
-                >
-                  <span>
-                    {isLoading ? "Generando diagnóstico confidencial..." : "Solicitar diagnóstico y cita estratégica"}
-                  </span>
-                  <ArrowRight className="h-5 w-5" />
-                </button>
+              <div>
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-zinc-400 mb-1">
+                  Email Corporativo
+                </label>
+                <input
+                  required
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="tu@negocio.com"
+                  className="w-full rounded-sm border border-white/[0.08] bg-zinc-950 p-3 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-blue-500 focus:outline-none"
+                />
               </div>
 
-              {/* Security Privacy Notice */}
-              <div className="flex items-center justify-center gap-2 pt-2 text-center text-xs font-mono text-zinc-500">
-                <Lock className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Sus datos están protegidos por protocolo criptográfico local. Cero spam.</span>
-              </div>
+              <label className="flex items-start gap-3 p-3 rounded-sm border border-white/[0.08] bg-zinc-900/40 cursor-pointer">
+                <input
+                  type="checkbox"
+                  required
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  className="mt-0.5 text-blue-600 focus:ring-0"
+                />
+                <span className="font-mono text-[10px] leading-relaxed text-zinc-400">
+                  AUTORIZO el tratamiento de mis datos conforme a la Ley 1581 de 2012.
+                  Novatria Systems almacena únicamente el dominio del correo electrónico
+                  (jamás el correo completo) y los datos de este formulario.
+                </span>
+              </label>
+
+              {serverError && (
+                <div className="rounded-sm border border-red-800/40 bg-red-950/20 p-3 font-mono text-[11px] text-red-300">
+                  {serverError}
+                </div>
+              )}
+
+              <Button type="submit" disabled={isSubmitting || !consent} variant="primary" size="lg" className="w-full">
+                {isSubmitting ? "Registrando..." : "Solicitar diagnóstico gratuito de mi negocio"}
+                <ArrowRight className="h-4 w-4" />
+              </Button>
             </form>
           )}
         </div>

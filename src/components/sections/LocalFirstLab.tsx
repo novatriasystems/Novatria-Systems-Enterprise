@@ -46,13 +46,13 @@ export function LocalFirstLab() {
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-950/40 px-3.5 py-1 text-xs font-mono text-emerald-300 mb-3">
             <Lock className="h-3.5 w-3.5 text-emerald-400" />
-            <span>NOVATRIA LAB / PROBABILIDAD DE DATOS LOCALES...</span>
+            <span>NOVATRIA LAB · PRUEBA DE TRABAJO EN SU NAVEGADOR</span>
           </div>
           <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
             No le crea a nuestra página. Créale a su navegador.
           </h2>
           <p className="mt-4 text-base sm:text-lg leading-relaxed text-zinc-300">
-            Sanitizador de texto local en RAM. Ingrese texto sensible para ver cómo es procesado y limpiado directamente desde su navegador, sin enviar absolutamente nada a internet.
+            Sanitizador de texto local en RAM. Ingrese texto sensible para ver cómo es procesado y limpiado directamente desde su navegador, sin enviar absolutamente nada a internet. Desconecte su wifi y compruebe que sigue funcionando.
           </p>
         </div>
 

@@ -41,7 +41,7 @@ export function MirrorSection() {
         <div className="flex justify-end mb-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-950/40 px-3.5 py-1 text-[11px] font-mono text-emerald-300">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Unidades con licencia económica
+            Negocios de servicio recurrente
           </div>
         </div>
 

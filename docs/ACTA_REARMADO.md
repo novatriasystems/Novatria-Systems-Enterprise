@@ -256,3 +256,23 @@
 - Reformulaciones de honestidad conservadas: registro auditable (no "cero
   alucinaciones"), datos en su servidor (no "expedientes clinicos").
 - Header y Hero: INTACTOS por orden del Ingeniero.
+
+## WP7 — NARRATIVA v2.2 "EL JARVIS SOBERANO" (T1 + T2 CIERRE) — 20-sep
+- T1 (verificada): Hero v2.2 ("IA que trabaja en su propio computador") + SolutionTalos
+  v2.2 (orquestador multi-agente, JARVIS, escalera hardware por niveles, grid nichos).
+- T2: humanizacion dirigida con sondeo previo (leccion T1-1 aplicada):
+  * Mirror: tag garbled "Unidades con licencia economica" -> "Negocios de servicio
+    recurrente".
+  * Lab: badge garbled corregido + desafio auditable "Desconecte su wifi y compruebe".
+  * Meta/title del documento actualizados (pestaña + Google) al copy v2.2.
+  * HALLAZGO ND-6 (GRAVE): DiagnosticFinal — formulario de conversion final — NO
+    persistia (estado local puro). Leads del CTA principal se perdian al refrescar.
+    Reescrito: persiste en /api/contact -> SQLite, consentimiento Ley 1581 OBLIGATORIO,
+    telefono ELIMINADO del formulario por minimizacion (sin columna en BD; decision
+    reversible si el Ingeniero quiere capturar telefono — requiere schema + consent).
+  * Schema contact: default "public_cloud" removido de infrastructureType (los leads
+    del formulario final ya no heredan un score inflado).
+- Diferencias con propuesta externa (documentadas): S9 BAB sin metricas (C-1);
+  acotacion CES correcta ya presente en implementacion Antigravity; columna Proveedor
+  conservada de v2.1.
+- Pendiente: verificacion visual del Ingeniero (criterio: pedagogia de ventas).

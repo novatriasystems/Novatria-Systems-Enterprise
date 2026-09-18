@@ -14,8 +14,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Novatria Systems // Sovereign Enterprise Operations" },
-      { name: "description", content: "Infraestructura de IA soberana y blindaje de propiedad intelectual para empresas." },
+      { title: "Novatria Systems · IA que trabaja en su propio computador" },
+      { name: "description", content: "Recuperamos los clientes que su negocio dejó de atender. IA local: sus datos jamás salen de su empresa." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
