@@ -343,3 +343,12 @@
 - Fase A (6 tareas) + purga: tsc/build/any/CJK/jerga/%/V-3 — 8/8 verdes.
 - Pendiente Fase B (tras revision visual del Ingeniero): bento Espejo, diagrama
   Talos simplificado, bento storefront, widgets de footer WP9.
+
+## WP10 FIX — PURGA 9 RESIDUOS DE JERGA (enclave/Ed25519) — 20-sep
+- Guard ampliado atrapo 9 instancias que la purga por-frase no cubrio. 3 en
+  RiskTelemetry (desmontado — retirado del arbol con DoctrineValues), 2 de copys
+  propios de WP4, 1 modal, 1 contact.ts, 1 del 404 WP6, 1 falso positivo
+  constructivo (Ed25519 dentro de una prohibicion del prompt — reformulado a
+  "algoritmos criptograficos ni protocolos internos", cobertura igual o mayor).
+- REGLA GD-2: terminos erradicados viven como PATRON global en el gate; toda tanda
+  ejecuta el gate completo pre-commit. Las purgas por-frase dejan residuos.
