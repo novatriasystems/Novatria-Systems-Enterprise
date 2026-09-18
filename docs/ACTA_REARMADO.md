@@ -309,3 +309,20 @@
   inmediata del visitante tras ver su vertical.
 - Puente nuevo en SolutionTalos: la escalera queda mencionada con intencion y
   apunta al explorador de abajo — flujo continuo, cero repeticion.
+
+## WP9 — AUDITORIA DE JERGA/COPY COMPLETA (CIERRE) — 20-sep
+- Extractor de copy visitor-facing ejecutado sobre 15 componentes. Resultado: la jerga
+  tecnica ya salio de las 13 secciones nucleo. 4 focos residuales corregidos:
+  H-1 GRAVE: RealCases convirtio el 28% (dato de dolor CES) en metrica de exito de
+     Talos — invierte el dato y promete sin piloto. Metricas convertidas a verdades
+     operativas sin cifras.
+  H-2: EvidenceCES panel secundario con "Recuperable casi en su totalidad" — promesa
+     sin piloto + duplicacion (elaborar tras output).
+  H-3: ServicesMatrix tuteo + "enclave local" — usted unificado, enclave purgado;
+     terminos CTO (RAG, egress) CONSERVADOS (audiencia correcta).
+  H-4: Footer fósil completo — reescrito humano, links a secciones vivas, sin
+     ED25519/AIR-GAPPED/enclaves.
+- VEREDICTO COPYWRITER: la jerga salio del estadio. Valor residual del copywriter =
+  unificar timbre de voz (3 micro-tonos coexisten) — RECOMENDACION: probar con
+  prospecto real ANTES de invertir en pulido.
+- Guard permanente ampliado: SGN + ED25519 + AIR-GAPPED + enclave en un solo gate.

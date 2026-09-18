@@ -18,7 +18,7 @@ const OFFERS = [
     id: "NEURIS_1",
     tag: "IA SOBERANA ENTERPRISE",
     title: "Neuris",
-    desc: "RAG e inferencia sobre documentación confidencial en enclave local. Propiedad intelectual que jamás sale de tu infraestructura.",
+    desc: "RAG e inferencia sobre documentación confidencial en su infraestructura local. Propiedad intelectual que jamás sale de su infraestructura.",
     metrics: "On-premise // Cero Vendor Lock-in",
   },
   {
@@ -39,7 +39,7 @@ const OFFERS = [
     id: "WEBDEV_4",
     tag: "INFRAESTRUCTURA WEB",
     title: "WebDev",
-    desc: "Motores digitales de alta conversión sobre infraestructura propietaria. Cero comisiones, 100% código soberano.",
+    desc: "Motores digitales de alta conversión sobre infraestructura propietaria. Cero comisiones, código 100% suyo.",
     metrics: "100% Ownership // Sin SaaS",
   },
 ];
