@@ -13,7 +13,7 @@ export function HeroSection({ onEvaluar }: HeroSectionProps) {
         src="/talos-hero.png"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 left-0 h-full w-1/2 object-cover object-center mix-blend-screen opacity-95 select-none [mask-image:linear-gradient(to_right,black_45%,transparent_100%)]"
+        className="pointer-events-none absolute inset-y-0 left-0 h-full w-1/2 object-cover object-left mix-blend-screen opacity-95 select-none [mask-image:linear-gradient(to_right,black_55%,transparent_100%)]"
       />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-gradient-to-b from-blue-500/[0.07] to-transparent" />
 
