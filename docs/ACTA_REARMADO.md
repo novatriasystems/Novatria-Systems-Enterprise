@@ -290,3 +290,9 @@
 - Nota: plantillas del kernel con ortografia sin tilde (despues/desparasitacion) se
   conservan tal cual — son la verdad del producto; su correccion es tarea del kernel,
   no del portal (fuente unica de verdad).
+
+## WP8 FIX — IMPORT MUERTO + PROP HUERFANA — 20-sep
+- Gate atrapo: import Bot sin uso (quedo de un diseño descartado del panel) y prop
+  onEvaluar que el nuevo NicheProducts ya no acepta (su conversion vive en S11).
+  Mismo patron de T1-2: reescribir un componente exige auditar sus consumidores en
+  la misma tanda. Corregido: import limpio, <NicheProducts /> sin props.

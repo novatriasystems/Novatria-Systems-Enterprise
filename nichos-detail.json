@@ -1,0 +1,117 @@
+{
+  "ecosistema_copy": "Conectable a su ecosistema actual vía API / MCP (compatible con Dentalink, Mindbody, Opera, Fresha y sistemas con acceso a datos).",
+  "verticales": [
+    {
+      "id": "odontologia",
+      "nombre": "Odontología",
+      "decisiones": [
+        "Si las tardes concentran mayor rentabilidad, sugiere reorganizar horarios o aplicar tarifas dinámicas en franjas matutinas de baja demanda.",
+        "Ajusta la asignación de sillones y profesionales según la ocupación real de la agenda."
+      ],
+      "metricas": [
+        { "nombre": "Tasa de aceptación de presupuestos", "detalle": "Mide qué porcentaje de tratamientos cotizados se convierten en procedimientos reales." },
+        { "nombre": "Ocupación por sillón y doctor", "detalle": "Mapea horas muertas y tiempo medio de procedimiento por profesional." }
+      ],
+      "integraciones": "Software médico/dental, ERP de inventario, pasarelas de pago y WhatsApp.",
+      "decision_flag": "Cruza los procedimientos agendados con el registro de insumos en el ERP y alerta desviaciones de inventario en tiempo real."
+    },
+    {
+      "id": "gimnasio",
+      "nombre": "Gimnasios",
+      "decisiones": [
+        "Retención preactiva: cuando detecta una caída de asistencia, alerta a su equipo con una acción recomendada o envía una oferta personalizada al socio — antes de que cancele.",
+        "Recomienda mover o cancelar clases grupales con asistencia baja y reforzar entrenadores en las horas de mayor afluencia."
+      ],
+      "metricas": [
+        { "nombre": "Predicción de cancelación (churn)", "detalle": "Identifica cambios de comportamiento: un socio que iba 4 días por semana y baja a 1 en las últimas dos semanas." },
+        { "nombre": "Valor del cliente y costo de adquisición", "detalle": "Mide la rentabilidad neta por tipo de membresía." }
+      ],
+      "integraciones": "CRM de fitness, control de acceso (torniquetes/biometría), software contable.",
+      "decision_flag": "Estudios de la industria de software de retención señalan que la intervención automatizada oportuna reduce cancelaciones entre un 15% y un 25%."
+    },
+    {
+      "id": "fisioterapia",
+      "nombre": "Fisioterapia",
+      "decisiones": [
+        "Si detecta que los pacientes de un especialista se recuperan en menos sesiones que con otro, sugiere capacitar al personal o derivar casos según la tasa de éxito analítica.",
+        "Proyecta los ingresos de los próximos meses según el ciclo de recuperación de los pacientes actuales."
+      ],
+      "metricas": [
+        { "nombre": "Efectividad del tratamiento", "detalle": "Sesiones requeridas hasta el alta, comparadas por patología y profesional." },
+        { "nombre": "Adherencia a los ejercicios en casa", "detalle": "Medida según las interacciones del paciente con la web o app del centro." }
+      ],
+      "integraciones": "Software de fisioterapia, agendas de especialistas, encuestas de evolución.",
+      "decision_flag": "El seguimiento automático del plan de ejercicios y de las fechas de sesión mantiene al paciente comprometido hasta el alta."
+    },
+    {
+      "id": "peluqueria",
+      "nombre": "Peluquerías y Barberías",
+      "decisiones": [
+        "Si un cliente se atiende cada 28 días y van 32 sin cita, Talos envía un mensaje personalizado de reenganche — con un servicio complementario si aplica.",
+        "Recomienda ajustes de precios e incentivos según la demanda real de cada profesional de la silla."
+      ],
+      "metricas": [
+        { "nombre": "Tiempo medio de retorno", "detalle": "El tiempo exacto que tarda cada cliente en volver a cortarse o teñirse." },
+        { "nombre": "Margen por servicio", "detalle": "Rentabilidad real descontando el producto que consume cada servicio." }
+      ],
+      "integraciones": "POS de agenda y venta, control de inventario de tintes y productos, redes sociales.",
+      "decision_flag": "La detección del período medio de retorno convierte la agenda vacía en campañas de reenganche automáticas."
+    },
+    {
+      "id": "veterinaria",
+      "nombre": "Veterinaria",
+      "decisiones": [
+        "Si detecta un aumento inusual de ciertos casos en el último mes, genera un informe administrativo para campañas preventivas dirigidas a los dueños de la zona.",
+        "Conecta el stock con las citas proyectadas para reponer vacunas e insumos justo antes del punto mínimo de reorden."
+      ],
+      "metricas": [
+        { "nombre": "Cumplimiento del esquema sanitario", "detalle": "Qué porcentaje de mascotas completan vacunación y controles a tiempo." },
+        { "nombre": "Trazabilidad de insumos", "detalle": "Rotación y vencimiento de fármacos y material médico." }
+      ],
+      "integraciones": "Software veterinario, laboratorios externos, inventario de medicamentos, facturación.",
+      "decision_flag": "Los recordatorios de vacunación anual son la causa #1 de retorno en clínicas veterinarias — y el ciclo de 300 días es el que Talos vigila."
+    },
+    {
+      "id": "agrovet",
+      "nombre": "Agro-Vet",
+      "decisiones": [
+        "Anticipa la compra de insumos según clima, fechas de siembra y calendarios de vacunación masiva — previniendo que productos perecederos venzan en bodega.",
+        "Autoriza o restringe ventas a crédito en el punto de venta según el historial de pago del cliente agrícola."
+      ],
+      "metricas": [
+        { "nombre": "Demanda estacional prevista", "detalle": "Fertilizantes, pesticidas y medicamentos según variables climáticas y calendario agrícola." },
+        { "nombre": "Riesgo crediticio del productor", "detalle": "Historial de compras y pagos diferidos de cada cliente." }
+      ],
+      "integraciones": "ERP de cadena de suministro, sensores de campo, facturación electrónica, CRM de ventas de campo.",
+      "decision_flag": "Estudios de la industria señalan que la gestión predictiva de stock reduce hasta un 20% los costos de almacenamiento por vencimiento."
+    },
+    {
+      "id": "hotel",
+      "nombre": "Hoteles",
+      "decisiones": [
+        "Ajusta el precio de las habitaciones en tiempo real según ocupación, clima, eventos de la ciudad y tarifas de la competencia.",
+        "Al confirmarse el check-out, apaga automáticamente los sistemas de clima de las habitaciones desocupadas — la factura eléctrica baja sin que nadie lo piense."
+      ],
+      "metricas": [
+        { "nombre": "Ingreso por habitación disponible (RevPAR)", "detalle": "Rentabilidad en tiempo real por habitación y por temporada." },
+        { "nombre": "Costo operativo por huésped", "detalle": "Energía, limpieza y consumos, medidos por estancia." }
+      ],
+      "integraciones": "PMS (gestión hotelera), motores de reserva, channel manager, sensores energéticos.",
+      "decision_flag": "El ciclo de 180 días con toques espaciados de 10 días convierte la temporada baja en reservas anticipadas."
+    },
+    {
+      "id": "bicicleteria",
+      "nombre": "Bicicleterías",
+      "decisiones": [
+        "Calcula el desgaste medio según el tipo de bicicleta y fecha de compra, y sugiere el cambio de transmisión justo cuando el componente lo requiere.",
+        "Sugiere órdenes de compra agrupadas a distribuidores para alcanzar descuentos por volumen, según la velocidad real de consumo del taller."
+      ],
+      "metricas": [
+        { "nombre": "Taller vs. venta directa", "detalle": "Compara la rentabilidad de las horas de mecánica frente a la venta de componentes." },
+        { "nombre": "Rotación de repuestos", "detalle": "Identifica repuestos de lenta rotación frente a los de alta demanda (cadenas, pastillas de freno)." }
+      ],
+      "integraciones": "ERP de inventario, software de taller, comercio electrónico, facturación electrónica.",
+      "decision_flag": "El recordatorio de mantenimiento por desgaste estimado convierte cada bicicleta vendida en un cliente de taller recurrente."
+    }
+  ]
+}

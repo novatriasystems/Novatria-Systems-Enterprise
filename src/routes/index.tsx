@@ -47,7 +47,7 @@ function NovatriaEnterprisePage() {
         <SolutionTalos />
 
         {/* Linea 1 — Su negocio. Su Talos. (manifiesto kernel, WP3b) */}
-        <NicheProducts onEvaluar={() => setIsAssessmentOpen(true)} />
+        <NicheProducts />
 
         {/* Sección 4: La Prueba Viva (Demostración Interactiva) */}
         <LiveProofWhatsApp />
