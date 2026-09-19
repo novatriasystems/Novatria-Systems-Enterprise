@@ -17,7 +17,7 @@ export function HeroSection({ onEvaluar }: HeroSectionProps) {
       />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-gradient-to-b from-blue-500/[0.07] to-transparent" />
 
-      <div className="relative mx-auto max-w-5xl px-6 pt-24 pb-20 text-center">
+      <div className="relative ml-auto max-w-3xl px-6 pt-24 pb-20 text-right lg:pr-16">
         <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-zinc-900/60 px-4 py-1.5">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
           <span className="font-mono text-[11px] tracking-wide text-zinc-300">
@@ -35,13 +35,13 @@ export function HeroSection({ onEvaluar }: HeroSectionProps) {
           </span>
         </h1>
 
-        <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-zinc-400">
+        <p className="mt-8 text-base leading-relaxed text-zinc-400">
           Instalamos un asistente inteligente que recupera los clientes que su negocio dejó
           de atender, operando 100% dentro de su empresa — y garantizando que su información
           jamás pase por servidores de terceros.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <div className="mt-10 flex flex-wrap items-center justify-end gap-4">
           <Button onClick={onEvaluar} variant="primary" size="lg" className="rounded-full">
             Probar cómo funciona en mi negocio
             <ArrowRight className="h-4 w-4" />
@@ -55,7 +55,7 @@ export function HeroSection({ onEvaluar }: HeroSectionProps) {
           </a>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-4 text-left md:grid-cols-2">
+        <div className="mt-16 grid grid-cols-1 gap-4 text-left md:grid-cols-2">
           <div className="rounded-lg border border-white/[0.08] bg-zinc-900/50 p-5">
             <Wallet className="h-5 w-5 text-blue-400" />
             <h3 className="mt-3 font-sans text-sm font-bold text-zinc-100">Costo fijo y transparente</h3>
